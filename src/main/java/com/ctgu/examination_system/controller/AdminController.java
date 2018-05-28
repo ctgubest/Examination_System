@@ -36,5 +36,11 @@ public class AdminController {
 		model.addAttribute("pagingVO", pagingVO);
 		return "admin/showStudent";
 	}
-	
+    @RequestMapping(value="/removeStudent",method=RequestMethod.GET)
+    public boolean removeStudent(@RequestParam("id")Integer id) {
+        boolean flag = false;
+        flag = studentService.deleteStudent(id);
+        System.out.println(flag);
+        return flag;
+    }
 }
