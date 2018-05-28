@@ -18,18 +18,17 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	@Override
 	public User selectUserById(String userId, String password) {
-		User user=null;
-		if(userId!=null || userId.length()>0) {
+		if(userId != null || userId.length() > 0) {
 			UserExample userExample=new UserExample();
 			Criteria criteria=userExample.createCriteria();
 			criteria.andUseridEqualTo(userId);
 			criteria.andPasswordEqualTo(password);
 			List<User> list=userMapper.selectByExample(userExample);
-			if(list!=null) {
+			if(list != null) {
 				return list.get(0);
 			}
 		}
-		return user;
+		return null;
 	}
 
 }

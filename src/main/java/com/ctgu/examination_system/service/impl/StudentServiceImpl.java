@@ -28,16 +28,21 @@ public class StudentServiceImpl implements StudentService{
 		return studentCount;
 	}
 	@Override
-	public List<Student> finddByPaging(int i) {
+	public List<Student> findByPaging(int i) {
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         List<Student> list=studentMapper.findByPaging(pagingVO);
+        if (list == null){
+            return null;
+        }
         for(int index=0;index<list.size();index++) {
         	DepartmentExample dExample=new DepartmentExample();
         	com.ctgu.examination_system.entity.DepartmentExample.Criteria criteria=dExample.createCriteria();
         	criteria.andDepartmentIdEqualTo(list.get(index).getDepartmentId());
         	List<Department> lists=departmentMapper.selectByExample(dExample);
-        	list.get(index).setDepartment(lists.get(0));
+        	if (lists.size() > 0) {	//如果取出的数据不为空
+				list.get(index).setDepartment(lists.get(0));
+			}
         }
         return list;
 	}

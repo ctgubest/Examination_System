@@ -10,7 +10,7 @@ public interface StudentService {
 	Integer getCountStudent();
 
 
-	List<Student> finddByPaging(int i);
+	List<Student> findByPaging(int i);
 
 
 	boolean deleteStudent(Integer id);
