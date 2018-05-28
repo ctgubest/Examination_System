@@ -27,10 +27,10 @@ public class AdminController {
 		pagingVO.setTotalCount(studentService.getCountStudent());
 		if(page==null || page==0) {
 			pagingVO.setToPageNo(1);
-			list=studentService.finddByPaging(1);
+			list=studentService.findByPaging(1);
 		}else {
 			pagingVO.setToPageNo(page);
-			list=studentService.finddByPaging(page);
+			list=studentService.findByPaging(page);
 		}
 		model.addAttribute("studentList", list);
 		model.addAttribute("pagingVO", pagingVO);
@@ -38,11 +38,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/removeStudent",method=RequestMethod.GET)
-	@ResponseBody
 	public boolean removeStudent(@RequestParam("id")Integer id) {
-		System.out.println("进到了这里");
-		boolean flag=false;
-		flag=studentService.deleteStudent(id);
+		boolean flag = false;
+		flag = studentService.deleteStudent(id);
 		System.out.println(flag);
 		return flag;
 	}

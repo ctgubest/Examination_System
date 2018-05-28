@@ -24,13 +24,16 @@ public class UserController {
 	@RequestMapping(value="/user/login",method=RequestMethod.POST)
 	public String volidLogin(@RequestParam("userId") String userId,@RequestParam("password")String password) {
 		user=userService.selectUserById(userId, password);
+		if (user == null) { //user等于空代表没有此用户
+            return "redirect:/login";
+        }
 		if(user.getRole()==0) {
+		    System.out.println("登录没问题");
 			return "redirect:/admin/showStudent";//admin登陆
 		}else if(user.getRole()==1) {
 			return "redirect:/teacher/showCourse";//teacher登陆
-		}else if(user.getRole()==2) {
+		}else {
 			return "redirect:/student/showCourse";//student登陆
 		}
-		return "redirect:/login";
 	}
 }
