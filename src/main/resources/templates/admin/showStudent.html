@@ -57,8 +57,8 @@
 									<td th:text="${#dates.format(student.enterDate, 'yyyy/MMM/dd')}">2015/09/01</td>
 									<td th:text="${student.department.departmentName}">计算机系</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='/admin/editStudent?id=${student.userid}'">修改</button>
-										<button class="btn btn-default btn-xs btn-danger btn-primary" th:onClick="'javascript:removeStudent('+${student.id}+')'">删除</button>
+										<button class="btn btn-default btn-xs btn-info" onClick="location.href='/admin/editStudent?id=${student.id}'">修改</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" th:onClick="'javascript: removeStudent('+${student.id}+')'">删除</button>
 										<!--弹出框-->
 									</td>
 								</tr>
@@ -96,12 +96,13 @@
         		data: {"id":id},
         		url: "/admin/removeStudent",
         		success: function(data){
-        			if(data==true)
+        			if(data==true){
         				window.location.href="/admin/showStudent";
         				alert("删除成功!");
         		}else{
         			alert("删除失败!");
         		}
+        	 }
         	});
         }
  	</script>

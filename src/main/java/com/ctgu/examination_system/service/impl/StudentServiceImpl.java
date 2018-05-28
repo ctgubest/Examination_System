@@ -28,7 +28,7 @@ public class StudentServiceImpl implements StudentService{
 		return studentCount;
 	}
 	@Override
-	public List<Student> finddByPaging(int i) {
+	public List<Student> findByPaging(int i) {
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         List<Student> list=studentMapper.findByPaging(pagingVO);
