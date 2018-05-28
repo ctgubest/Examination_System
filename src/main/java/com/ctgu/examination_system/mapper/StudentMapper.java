@@ -5,7 +5,9 @@ import com.ctgu.examination_system.entity.Student;
 import com.ctgu.examination_system.entity.StudentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StudentMapper {
     int countByExample(StudentExample example);
 

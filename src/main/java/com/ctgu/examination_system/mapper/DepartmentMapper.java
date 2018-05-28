@@ -4,7 +4,9 @@ import com.ctgu.examination_system.entity.Department;
 import com.ctgu.examination_system.entity.DepartmentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface DepartmentMapper {
     int countByExample(DepartmentExample example);
 
