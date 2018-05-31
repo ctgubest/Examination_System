@@ -1,17 +1,22 @@
 package com.ctgu.examination_system.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ctgu.examination_system.entity.Department;
 import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.Student;
+import com.ctgu.examination_system.service.DepartmentService;
 import com.ctgu.examination_system.service.StudentService;
 
 @Controller
@@ -20,6 +25,7 @@ public class AdminController {
 	
 	@Autowired
 	private StudentService studentService;
+	@Autowired DepartmentService departmentService;
 	@RequestMapping(value="/showStudent")
 	public String showStudent(Model model,Integer page) {
 		List<Student> list=null;
@@ -37,10 +43,30 @@ public class AdminController {
 		return "admin/showStudent";
 	}
     @RequestMapping(value="/removeStudent",method=RequestMethod.GET)
+    @ResponseBody
     public boolean removeStudent(@RequestParam("id")Integer id) {
         boolean flag = false;
         flag = studentService.deleteStudent(id);
-        System.out.println(flag);
         return flag;
+    }
+    @RequestMapping(value="/enterEditStudent")
+    public String enterEditStudent(@RequestParam("id")Integer id,Model model) {
+    	Student student=studentService.findStudentById(id);
+    	List<Department> departmentList=departmentService.findAll();
+    	model.addAttribute("student", student);
+    	model.addAttribute("departmentList", departmentList);
+    	return "admin/editStudent";
+    }
+    @RequestMapping(value="/editStudent",method=RequestMethod.POST)
+    public String editStudent(Student student,BindingResult bindingResult,
+    		@RequestParam("birthDate")String birthDate,
+    		@RequestParam("enterDate")String enterDate) throws Exception {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	Date bDate=(Date) sdf.parse(birthDate);
+    	Date eDate=(Date) sdf.parse(enterDate);
+    	student.setBirthDate(bDate);
+    	student.setEnterDate(eDate);
+    	studentService.editStudent(student);
+    	return "redirect:/admin/showStudent";
     }
 }

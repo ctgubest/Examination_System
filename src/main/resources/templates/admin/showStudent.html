@@ -53,11 +53,11 @@
 									<td th:text="${student.studentId}">2015112105</td>
 									<td th:text="${student.username}">汪俊</td>
 									<td th:text="${student.gendar==1} ? '男' : '女'">女</td>
-									<td th:text="${#dates.format(student.birthDate, 'yyyy/MMM/dd')}">2015/11/22</td>
-									<td th:text="${#dates.format(student.enterDate, 'yyyy/MMM/dd')}">2015/09/01</td>
+									<td th:text="${#dates.format(student.birthDate, 'yyyy-MM-dd')}">2015/11/22</td>
+									<td th:text="${#dates.format(student.enterDate, 'yyyy-MM-dd')}">2015/09/01</td>
 									<td th:text="${student.department.departmentName}">计算机系</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='/admin/editStudent?id=${student.id}'">修改</button>
+										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript: enterEditStudent('+${student.id}+')'">修改</button>
 										<button class="btn btn-default btn-xs btn-danger btn-primary" th:onClick="'javascript: removeStudent('+${student.id}+')'">删除</button>
 										<!--弹出框-->
 									</td>
@@ -89,21 +89,26 @@
 		</div>
 	</div>
 </body>
-	<script type="text/javascript">
+	<script type="text/javascript" th:inline="javascript">
+	$("#nav li:nth-child(2)").addClass("active");
         function removeStudent(id){
         	$.ajax({
         		type: "GET",
+        		async: true,
         		data: {"id":id},
         		url: "/admin/removeStudent",
         		success: function(data){
         			if(data==true){
-        				window.location.href="/admin/showStudent";
         				alert("删除成功!");
+        				window.location.reload();
         		}else{
         			alert("删除失败!");
         		}
         	 }
         	});
+        }
+        function enterEditStudent(id){
+        	window.location.href="/admin/enterEditStudent?id="+id; 
         }
  	</script>
 </html>

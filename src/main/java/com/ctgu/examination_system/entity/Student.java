@@ -82,4 +82,12 @@ public class Student {
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
+
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", studentId=" + studentId + ", username=" + username + ", gendar=" + gendar
+				+ ", birthDate=" + birthDate + ", enterDate=" + enterDate + ", departmentId=" + departmentId
+				+ ", department=" + department + "]";
+	}
+    
 }

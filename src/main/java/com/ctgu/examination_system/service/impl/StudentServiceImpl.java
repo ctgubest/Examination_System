@@ -54,7 +54,25 @@ public class StudentServiceImpl implements StudentService{
 			if(res==1)
 				flag=true;
 		}
-		return false;
+		return flag;
+	}
+	@Override
+	public Student findStudentById(Integer id) {
+		Student student=null;
+		student=studentMapper.selectByPrimaryKey(id);
+		return student;
+	}
+	@Override
+	public boolean editStudent(Student student) {
+		boolean flag=false;
+		if(student !=null) {
+			StudentExample studentExample=new StudentExample();
+			int result=studentMapper.updateByExampleSelective(student, studentExample);
+			if(result==1) {
+				flag=true;
+			}
+		}
+		return flag;
 	}
 
 }

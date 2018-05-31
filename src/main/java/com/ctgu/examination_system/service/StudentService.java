@@ -14,4 +14,10 @@ public interface StudentService {
 
 
 	boolean deleteStudent(Integer id);
+
+
+	Student findStudentById(Integer id);
+
+
+	boolean editStudent(Student student);
 }
