@@ -58,15 +58,25 @@ public class AdminController {
     	return "admin/editStudent";
     }
     @RequestMapping(value="/editStudent",method=RequestMethod.POST)
-    public String editStudent(Student student,BindingResult bindingResult,
-    		@RequestParam("birthDate")String birthDate,
-    		@RequestParam("enterDate")String enterDate) throws Exception {
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	Date bDate=(Date) sdf.parse(birthDate);
-    	Date eDate=(Date) sdf.parse(enterDate);
-    	student.setBirthDate(bDate);
-    	student.setEnterDate(eDate);
+    public String editStudent(Student student) throws Exception {
     	studentService.editStudent(student);
     	return "redirect:/admin/showStudent";
+    }
+
+    @RequestMapping(value = "/addStudent",method = RequestMethod.GET)
+    public String showAddStudent(){
+	    return "admin/addStudent";
+    }
+
+    @RequestMapping(value = "/addStudent",method = RequestMethod.POST)
+    public String addStudent(Student student){
+        studentService.addStudent(student);
+        return "redirect:/admin/showStudent";
+    }
+
+    @RequestMapping(value = "/selectStudent",method = RequestMethod.POST)
+    public String searchStudent(@RequestParam("username") String username,Model model){
+        System.out.println("selecyt");
+        return "admin/showStudent";
     }
 }

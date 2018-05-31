@@ -32,7 +32,7 @@ public class StudentServiceImpl implements StudentService{
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         List<Student> list=studentMapper.findByPaging(pagingVO);
-        if (list == null){
+        if (list == null || list.size() == 0){
             return null;
         }
         for(int index=0;index<list.size();index++) {
@@ -40,7 +40,7 @@ public class StudentServiceImpl implements StudentService{
         	com.ctgu.examination_system.entity.DepartmentExample.Criteria criteria=dExample.createCriteria();
         	criteria.andDepartmentIdEqualTo(list.get(index).getDepartmentId());
         	List<Department> lists=departmentMapper.selectByExample(dExample);
-        	if (lists.size() > 0) {	//如果取出的数据不为空
+        	if (lists != null && lists.size() != 0) {	//如果取出的数据不为空
 				list.get(index).setDepartment(lists.get(0));
 			}
         }
@@ -48,31 +48,35 @@ public class StudentServiceImpl implements StudentService{
 	}
 	@Override
 	public boolean deleteStudent(Integer id) {
-		boolean flag=false;
 		if(id!=null || id>0) {
-			int res=studentMapper.deleteByPrimaryKey(id);
-			if(res==1)
-				flag=true;
+			return studentMapper.deleteByPrimaryKey(id) == 1;
 		}
-		return flag;
+		return false;
 	}
 	@Override
 	public Student findStudentById(Integer id) {
-		Student student=null;
-		student=studentMapper.selectByPrimaryKey(id);
-		return student;
+		return studentMapper.selectByPrimaryKey(id);
 	}
 	@Override
 	public boolean editStudent(Student student) {
-		boolean flag=false;
 		if(student !=null) {
 			StudentExample studentExample=new StudentExample();
-			int result=studentMapper.updateByExampleSelective(student, studentExample);
-			if(result==1) {
-				flag=true;
-			}
+			return studentMapper.updateByExampleSelective(student, studentExample) == 1;
 		}
-		return flag;
+		return false;
 	}
+
+    @Override
+    public boolean addStudent(Student student) {
+        return studentMapper.insert(student) == 1;
+    }
+
+    @Override
+    public List<Student> searchStudent(String username) {
+	    StudentExample example = new StudentExample();
+        StudentExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameLike(username);
+        return studentMapper.selectByExample(example);
+    }
 
 }

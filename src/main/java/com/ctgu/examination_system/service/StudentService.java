@@ -20,4 +20,8 @@ public interface StudentService {
 
 
 	boolean editStudent(Student student);
+
+	boolean addStudent(Student student);
+
+	List<Student> searchStudent(String username);
 }

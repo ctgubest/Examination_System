@@ -1,5 +1,7 @@
 package com.ctgu.examination_system.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Student {
@@ -11,8 +13,10 @@ public class Student {
 
     private Short gendar;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthDate;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date enterDate;
 
     private Integer departmentId;
