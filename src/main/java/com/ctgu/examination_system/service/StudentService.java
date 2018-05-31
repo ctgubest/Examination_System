@@ -24,4 +24,6 @@ public interface StudentService {
 	boolean addStudent(Student student);
 
 	List<Student> searchStudent(String username);
+
+
 }
