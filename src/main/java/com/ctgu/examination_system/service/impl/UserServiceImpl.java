@@ -30,5 +30,16 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+	@Override
+	public boolean addUser(User user) {
+		return userMapper.insert(user)==1;
+	}
+	@Override
+	public boolean removeUser(String studentId) {
+		UserExample userExample=new UserExample();
+		Criteria criteria=userExample.createCriteria();
+		criteria.andUseridEqualTo(studentId);
+		return userMapper.deleteByExample(userExample)==1;
+	}
 
 }
