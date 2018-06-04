@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>课程信息显示</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 引入bootstrap -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<!-- 引入JQuery  bootstrap.js-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- 顶栏 -->
+	<div th:replace="admin/top::#top"></div>
+	<!-- 中间主体 -->
+	<div class="container" id="content">
+		<div class="row">
+			<div th:replace="admin/menu::#menu"></div>
+			<div class="col-md-10">
+				<div class="panel panel-default">
+				    <div class="panel-heading">
+						<div class="row">
+					    	<h1 class="col-md-5">课程名单管理</h1>
+							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/admin/selectCourse" th:action="@{/admin/selectCourse}" id="form1" method="post">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="请输入课程名" name="username">
+									<span class="input-group-addon btn" th:onclick="'javascript:selectCourse()'">搜索</span>
+								</div>
+							</form>
+							<button class="btn btn-default col-md-2" style="margin-top: 20px" th:onClick="'javascript:addCourse()'">
+								添加课程信息
+								<sapn class="glyphicon glyphicon-plus"/>
+							</button>
+
+						</div>
+				    </div>
+				    <table class="table table-bordered">
+					        <thead>
+					            <tr>
+									<th>课程号</th>
+									<th>课程名称</th>
+									<th>授课老师编号</th>
+									<th>上课地点</th>
+									<th>周数</th>
+									<th>上课时间</th>
+									<th>学分</th>
+									<th>院系编号</th>
+									<th>课程类型</th>
+									<th>操作</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+								<tr th:each="course:${courseList}" th:if="${courseList}!=null">
+									<td th:text="${course.courseId}">1</td>
+									<td th:text="${course.courseName}">数学</td>
+									<td th:text="${course.teacherId}">1001</td>
+									<td th:text="${course.classroom}">J5663</td>
+									<td th:text="${course.courseWeek}">18</td>
+									<td th:text="${course.courseTime}">周一</td>
+									<td th:text="${course.credit}">3</td>
+									<td th:text="${course.departmentId}">101</td>
+									<td th:text="${course.courseType}">必修课</td>
+									<td>
+										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:enterEditCourse('+${course.id}+')'">修改</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" th:onClick="'javascript:removeCourse('+${course.id}+')'">删除</button>
+										<!--弹出框-->
+									</td>
+								</tr>
+					        </tbody>
+				    </table>
+				    <div class="panel-footer">
+							<nav style="text-align: center">
+								<ul class="pagination" th:if="${pagingVO}!=null">
+									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.upPageNo}}">&laquo;上一页</a></li>
+									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
+									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
+									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
+									<li><a th:href="@{'/admin/showCourset?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
+								</ul>
+							</nav>
+				    </div>
+				</div>
+
+			</div>s
+		</div>
+	</div>
+	<div class="container" id="footer">
+		<div class="row">
+			<div class="col-md-12"></div>
+		</div>
+	</div>
+</body>
+	<script type="text/javascript" th:inline="javascript">
+		$("#li1").addClass("active");
+        function confirmd() {
+            var msg = "您真的确定要删除吗？！";
+            if (confirm(msg)==true){
+                return true;
+            }else{
+                return false;
+            }
+        }
+		function addCourse(){
+			window.location.href="/admin/addCourse";
+		}
+        function selectCourse(){
+            $("#form1").submit();
+        }
+        function enterEditCourse(id){
+        	window.location.href="/admin/enterEditCourse?id="+id;
+        }
+        function removeCourse(id){
+			$.ajax({
+				type: "GET",
+				data: {"id":id},
+				url: "/admin/removeCourse",
+				success: function(data){
+					if(data){
+						alert("删除成功");
+						window.location.reload();
+					}else
+						alert("删除失败");
+				}
+			});
+        }
+	</script>
+</html>

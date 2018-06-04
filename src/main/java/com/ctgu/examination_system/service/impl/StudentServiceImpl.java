@@ -10,6 +10,7 @@ import com.ctgu.examination_system.entity.DepartmentExample;
 import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.Student;
 import com.ctgu.examination_system.entity.StudentExample;
+import com.ctgu.examination_system.entity.StudentExample.Criteria;
 import com.ctgu.examination_system.mapper.DepartmentMapper;
 import com.ctgu.examination_system.mapper.StudentMapper;
 import com.ctgu.examination_system.service.StudentService;
@@ -61,6 +62,8 @@ public class StudentServiceImpl implements StudentService{
 	public boolean editStudent(Student student) {
 		if(student !=null) {
 			StudentExample studentExample=new StudentExample();
+			Criteria criteria =studentExample.createCriteria();
+			criteria.andStudentIdEqualTo(student.getStudentId());
 			return studentMapper.updateByExampleSelective(student, studentExample) == 1;
 		}
 		return false;
@@ -75,8 +78,31 @@ public class StudentServiceImpl implements StudentService{
     public List<Student> searchStudent(String username) {
 	    StudentExample example = new StudentExample();
         StudentExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameLike(username);
-        return studentMapper.selectByExample(example);
+        criteria.andUsernameLike("%"+username+"%");
+        List<Student>list=studentMapper.selectByExample(example);
+        if (list == null || list.size() == 0){
+            return null;
+        }
+        for(int index=0;index<list.size();index++) {
+        	DepartmentExample dExample=new DepartmentExample();
+        	com.ctgu.examination_system.entity.DepartmentExample.Criteria criteria1=dExample.createCriteria();
+        	criteria1.andDepartmentIdEqualTo(list.get(index).getDepartmentId());
+        	List<Department> lists=departmentMapper.selectByExample(dExample);
+        	if (lists != null && lists.size() != 0) {	//如果取出的数据不为空
+				list.get(index).setDepartment(lists.get(0));
+			}
+        }
+        return list;
     }
+	@Override
+	public boolean findStudentByStudentId(String studentId) {
+		StudentExample studentExample=new StudentExample();
+		Criteria criteria=studentExample.createCriteria();
+		criteria.andStudentIdEqualTo(studentId);
+		List<Student>list=studentMapper.selectByExample(studentExample);
+		if(list==null || list.size()==0)
+			return true;
+		return false;
+	}
 
 }

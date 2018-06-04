@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public class Student {
@@ -24,6 +25,8 @@ public class Student {
     private Integer departmentId;
     
     private Department department;
+    
+    private List<Course> courses;
     
     public Integer getId() {
         return id;
@@ -88,12 +91,21 @@ public class Student {
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
+    
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
 
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", studentId=" + studentId + ", username=" + username + ", gendar=" + gendar
 				+ ", birthDate=" + birthDate + ", enterDate=" + enterDate + ", departmentId=" + departmentId
-				+ ", department=" + department + "]";
+				+ ", department=" + department + ", courses=" + courses + "]";
 	}
+
     
 }
