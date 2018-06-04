@@ -22,5 +22,5 @@ public interface CourseService {
 
 	List<Course> searchCourse(String username);
 
-
+    Integer getLargestCourId();
 }

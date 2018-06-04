@@ -295,4 +295,7 @@
         from course
         limit #{toPageNo}, #{pageSize}
     </select>
+    <select id="getLargestCourId" resultType="java.lang.Integer">
+        SELECT max(course_id) FROM course;
+    </select>
 </mapper>

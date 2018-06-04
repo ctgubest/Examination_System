@@ -83,4 +83,13 @@ public class CourseServiceImpl implements CourseService {
 		return list;
 	}
 
+    @Override
+    public Integer getLargestCourId() {
+        Integer id = courseMapper.getLargestCourId();
+	    if (id == null || id == 0){
+	        return 100001;
+        }
+        return id + 1;
+    }
+
 }

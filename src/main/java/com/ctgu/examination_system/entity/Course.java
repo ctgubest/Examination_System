@@ -1,5 +1,8 @@
 package com.ctgu.examination_system.entity;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Course {
     private Integer id;
 
