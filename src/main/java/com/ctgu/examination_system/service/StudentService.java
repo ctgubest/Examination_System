@@ -25,5 +25,5 @@ public interface StudentService {
 
 	List<Student> searchStudent(String username);
 
-
+    int getLargestStuId();
 }

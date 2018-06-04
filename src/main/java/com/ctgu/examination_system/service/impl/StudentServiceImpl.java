@@ -32,18 +32,7 @@ public class StudentServiceImpl implements StudentService{
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         List<Student> list=studentMapper.findByPaging(pagingVO);
-        if (list == null || list.size() == 0){
-            return null;
-        }
-        for(int index=0;index<list.size();index++) {
-        	DepartmentExample dExample=new DepartmentExample();
-        	com.ctgu.examination_system.entity.DepartmentExample.Criteria criteria=dExample.createCriteria();
-        	criteria.andDepartmentIdEqualTo(list.get(index).getDepartmentId());
-        	List<Department> lists=departmentMapper.selectByExample(dExample);
-        	if (lists != null && lists.size() != 0) {	//如果取出的数据不为空
-				list.get(index).setDepartment(lists.get(0));
-			}
-        }
+        list = setDept(list);
         return list;
 	}
 	@Override
@@ -60,8 +49,10 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public boolean editStudent(Student student) {
 		if(student !=null) {
-			StudentExample studentExample=new StudentExample();
-			return studentMapper.updateByExampleSelective(student, studentExample) == 1;
+			StudentExample example = new StudentExample();
+            StudentExample.Criteria criteria = example.createCriteria();
+            criteria.andStudentIdEqualTo(student.getStudentId());
+			return studentMapper.updateByExampleSelective(student, example) == 1;
 		}
 		return false;
 	}
@@ -77,10 +68,30 @@ public class StudentServiceImpl implements StudentService{
         StudentExample.Criteria criteria = example.createCriteria();
         criteria.andUsernameLike("%"+username+"%");
         List<Student> list = studentMapper.selectByExample(example);
-        for (Student student : list){
-            student.setDepartment(departmentMapper.selectByPrimaryKey(student.getDepartmentId()));
-        }
+        list = setDept(list);
         return list;
     }
 
+    @Override
+    public int getLargestStuId() {
+	    int id = studentMapper.getLargestStuId();
+	    if (id == 0){
+	        return 10001;
+        }
+        return id + 1;
+    }
+
+    //给学生设置部门
+    private List<Student> setDept(List<Student> list){
+        for(Student student : list) {
+            DepartmentExample example = new DepartmentExample();
+            DepartmentExample.Criteria criteria = example.createCriteria();
+            criteria.andDepartmentIdEqualTo(student.getDepartmentId());
+            List<Department> deptList = departmentMapper.selectByExample(example);
+            if (deptList != null && deptList.size() != 0) {	//如果取出的数据不为空
+                student.setDepartment(deptList.get(0));
+            }
+        }
+        return list;
+    }
 }
