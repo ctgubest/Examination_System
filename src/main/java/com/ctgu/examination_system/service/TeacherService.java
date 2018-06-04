@@ -29,5 +29,5 @@ public interface TeacherService {
 
     List<Teacher> searchTeacher(String username);
 
-    int getLargestTeaId();
+    Integer getLargestTeaId();
 }

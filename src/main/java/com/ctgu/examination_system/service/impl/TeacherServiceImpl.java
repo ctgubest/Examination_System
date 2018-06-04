@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ *
  * Created by 汪俊 on 2018/6/4.
  */
 @Service
@@ -76,9 +77,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public int getLargestTeaId() {
-        int id = teacherMapper.getLargestTeaId();
-        if (id == 0){
+    public Integer getLargestTeaId() {
+        Integer id = teacherMapper.getLargestTeaId();
+        if (id == null || id == 0){
             return 1001;
         }
         return id + 1;

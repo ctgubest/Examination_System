@@ -33,5 +33,5 @@ public interface StudentMapper {
     
     List<Student> findByPaging(PagingVO pagingVO);
 
-    int getLargestStuId();
+    Integer getLargestStuId();
 }

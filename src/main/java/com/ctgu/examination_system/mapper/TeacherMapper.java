@@ -33,5 +33,5 @@ public interface TeacherMapper {
 
     List<Teacher> findByPaging(PagingVO pagingVO);
 
-    int getLargestTeaId();
+    Integer getLargestTeaId();
 }

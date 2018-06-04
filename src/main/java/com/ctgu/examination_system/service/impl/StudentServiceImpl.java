@@ -84,9 +84,9 @@ public class StudentServiceImpl implements StudentService{
 	}
 
     @Override
-    public int getLargestStuId() {
-	    int id = studentMapper.getLargestStuId();
-	    if (id == 0){
+    public Integer getLargestStuId() {
+        Integer id = studentMapper.getLargestStuId();
+	    if (id == null || id == 0){
 	        return 10001;
         }
         return id + 1;
