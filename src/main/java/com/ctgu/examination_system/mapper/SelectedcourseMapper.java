@@ -4,9 +4,7 @@ import com.ctgu.examination_system.entity.Selectedcourse;
 import com.ctgu.examination_system.entity.SelectedcourseExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface SelectedcourseMapper {
     int countByExample(SelectedcourseExample example);
 

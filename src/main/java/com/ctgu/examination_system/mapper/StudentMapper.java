@@ -32,4 +32,6 @@ public interface StudentMapper {
     int updateByPrimaryKey(Student record);
     
     List<Student> findByPaging(PagingVO pagingVO);
+
+    int getLargestStuId();
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.swing.ListModel;
 
+import com.ctgu.examination_system.entity.*;
+import com.ctgu.examination_system.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import com.ctgu.examination_system.service.DepartmentService;
 import com.ctgu.examination_system.service.StudentService;
 import com.ctgu.examination_system.service.TeacherService;
 import com.ctgu.examination_system.service.UserService;
+import sun.net.www.content.text.Generic;
 
 @Controller
 @RequestMapping("/admin")
@@ -44,8 +47,13 @@ public class AdminController {
 	private Student student;
 	@Autowired
 	private Course course;
-	//学生管理部分
-	@RequestMapping(value="/showStudent",method=RequestMethod.GET)
+
+	@Autowired
+    private Teacher teacher;
+
+	@Autowired
+    private TeacherService teacherService;
+	@RequestMapping(value="/showStudent")
 	public String showStudent(Model model,Integer page) {
 		List<Student> list=null;
 		PagingVO pagingVO=new PagingVO();
@@ -90,6 +98,7 @@ public class AdminController {
     public String showAddStudent(Model model){
     	List<Department> departmentList=departmentService.findAll();
     	model.addAttribute("departmentList",departmentList);
+        model.addAttribute("StudentId",studentService.getLargestStuId());
 	    return "admin/addStudent";
     }
 
@@ -107,7 +116,6 @@ public class AdminController {
 
     @RequestMapping(value = "/selectStudent",method = RequestMethod.POST)
     public String searchStudent(@RequestParam("username") String username,Model model){
-        System.out.println(username);
         List<Student>list=studentService.searchStudent(username);
         model.addAttribute("studentList", list);
         return "admin/showStudent";
@@ -173,5 +181,73 @@ public class AdminController {
         List<Course>list=courseService.searchCourse(username);
         model.addAttribute("courseList", list);
         return "admin/showCourse";
+
+    @RequestMapping("/showTeacher")
+    public String showTeacher(Model model, Integer page){
+        List<Teacher> list=null;
+        PagingVO pagingVO=new PagingVO();
+        pagingVO.setTotalCount(teacherService.getCountTeacher());
+        if(page==null || page==0) {
+            pagingVO.setToPageNo(1);
+            list=teacherService.findByPaging(1);
+        }else {
+            pagingVO.setToPageNo(page);
+            list=teacherService.findByPaging(page);
+        }
+        model.addAttribute("teacherList", list);
+        model.addAttribute("pagingVO", pagingVO);
+        return "admin/showTeacher";
+    }
+
+    @RequestMapping(value="/removeTeacher",method=RequestMethod.GET)
+    @ResponseBody
+    public boolean removeTeacher(@RequestParam("id")Integer id) {
+        teacher = teacherService.findTeacherById(id);
+        if(teacherService.deleteTeacher(id)) {
+            if(teacher != null) {
+                return userService.removeUser(teacher.getTeacherId());
+            }
+        }
+        return false;
+    }
+    @RequestMapping(value="/enterEditTeacher")
+    public String enterEditTeacher(@RequestParam("id")Integer id,Model model) {
+        teacher = teacherService.findTeacherById(id);
+        List<Department> departmentList = departmentService.findAll();
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("departmentList", departmentList);
+        return "admin/editTeacher";
+    }
+    @RequestMapping(value="/editTeacher",method=RequestMethod.POST)
+    public String editTeacher(Teacher teacher) throws Exception {
+        teacherService.editTeacher(teacher);
+        return "redirect:/admin/showTeacher";
+    }
+
+    @RequestMapping(value = "/addTeacher",method = RequestMethod.GET)
+    public String showAddTeacher(Model model){
+        List<Department> departmentList=departmentService.findAll();
+        model.addAttribute("departmentList",departmentList);
+        model.addAttribute("TeacherId",teacherService.getLargestTeaId());
+        return "admin/addTeacher";
+    }
+
+    @RequestMapping(value = "/addTeacher",method = RequestMethod.POST)
+    public String addTeacher(Teacher teacher){
+        if(teacherService.addTeacher(teacher)) {
+            user.setPassword("123456");
+            user.setRole((short) 1);
+            user.setUserid(teacher.getTeacherId());
+            userService.addUser(user);
+            return "redirect:/admin/showTeacher";
+        }
+        return "/failedPage";
+    }
+
+    @RequestMapping(value = "/selectTeacher",method = RequestMethod.POST)
+    public String searchTeacher(@RequestParam("username") String username,Model model){
+        List<Teacher> list = teacherService.searchTeacher(username);
+        model.addAttribute("teacherList", list);
+        return "admin/showTeacher";
     }
 }

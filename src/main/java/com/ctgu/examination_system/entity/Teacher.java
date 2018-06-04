@@ -1,6 +1,8 @@
 package com.ctgu.examination_system.entity;
 
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,8 +15,10 @@ public class Teacher {
 
     private Short gendar;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthDate;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date enterDate;
 
     private String degree;
@@ -22,6 +26,16 @@ public class Teacher {
     private String title;
 
     private Integer departmentId;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    private Department department;
 
     public Integer getId() {
         return id;

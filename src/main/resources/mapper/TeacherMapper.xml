@@ -272,4 +272,16 @@
       department_id = #{departmentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <!--自定义-->
+    <select id="findByPaging" parameterType="com.ctgu.examination_system.entity.PagingVO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from teacher
+        limit #{toPageNo}, #{pageSize}
+    </select>
+
+    <select id="getLargestTeaId" resultType="java.lang.Integer">
+        SELECT max(teacher_id) FROM teacher;
+    </select>
 </mapper>

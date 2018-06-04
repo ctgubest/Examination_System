@@ -1,5 +1,6 @@
 package com.ctgu.examination_system.mapper;
 
+import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.Teacher;
 import com.ctgu.examination_system.entity.TeacherExample;
 import java.util.List;
@@ -29,4 +30,8 @@ public interface TeacherMapper {
     int updateByPrimaryKeySelective(Teacher record);
 
     int updateByPrimaryKey(Teacher record);
+
+    List<Teacher> findByPaging(PagingVO pagingVO);
+
+    int getLargestTeaId();
 }

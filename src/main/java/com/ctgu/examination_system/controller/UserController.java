@@ -18,9 +18,13 @@ public class UserController {
 	private User user;
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String login() {
-		
 		return "login";
 	}
+
+    @RequestMapping(value="/logout",method=RequestMethod.GET)
+    public String logout() {
+        return "login";
+    }
     @RequestMapping(value="/user/login",method=RequestMethod.POST)
     public String volidLogin(@RequestParam("userId") String userId,@RequestParam("password")String password) {
         user=userService.selectUserById(userId, password);

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>教师信息显示</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 引入bootstrap -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<!-- 引入JQuery  bootstrap.js-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- 顶栏 -->
+	<div th:replace="admin/top::#top"></div>
+	<!-- 中间主体 -->
+	<div class="container" id="content">
+		<div class="row">
+			<div th:replace="admin/menu::#menu"></div>
+			<div class="col-md-10">
+				<div class="panel panel-default">
+				    <div class="panel-heading">
+						<div class="row">
+					    	<h1 class="col-md-5">教师名单管理</h1>
+							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/admin/selectTeacher" id="form1" method="post">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="请输入姓名" name="username">
+									<span class="input-group-addon btn" id="sub">搜索</span>
+								</div>
+							</form>
+							<button class="btn btn-default col-md-2" style="margin-top: 20px" th:onClick="'javascript:addTeacher()'">
+								添加用户信息
+								<sapn class="glyphicon glyphicon-plus"/>
+							</button>
+
+						</div>
+				    </div>
+				    <table class="table table-bordered">
+					        <thead>
+					            <tr>
+                                    <th>教师编号</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>出生年份</th>
+                                    <th>学历</th>
+                                    <th>职称</th>
+                                    <th>入职年份</th>
+                                    <th>学院</th>
+                                    <th>操作</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					        	<tr th:each="teacher:${teacherList}">
+									<td th:text="${teacher.teacherId}">2015112105</td>
+									<td th:text="${teacher.username}">汪俊</td>
+									<td th:text="${teacher.gendar==1} ? '男' : '女'">女</td>
+									<td th:text="${#dates.format(teacher.birthDate, 'yyyy-MM-dd')}">2015/11/22</td>
+                                    <td th:text="${teacher.degree}">本科</td>
+                                    <td th:text="${teacher.title}">职称</td>
+									<td th:text="${#dates.format(teacher.enterDate, 'yyyy-MM-dd')}">2015/09/01</td>
+									<td th:text="${teacher.department.departmentName}">计算机系</td>
+									<td>
+										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript: enterEditTeacher('+${teacher.id}+')'">修改</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" th:onClick="'javascript: removeTeacher('+${teacher.id}+')'">删除</button>
+										<!--弹出框-->
+									</td>
+								</tr>
+							
+					        </tbody>
+				    </table>
+				    <div class="panel-footer">
+							<nav style="text-align: center">
+								<ul class="pagination" th:if ="${pagingVO != null}">
+									<li><a th:href="@{'/admin/showTeacher?page='+${pagingVO.upPageNo}}">&laquo;上一页</a></li>
+									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
+										<li><a th:href="@{'/admin/showTeacher?page='${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
+										<li><a th:href="@{'/admin/showTeacher?page='${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
+										<li><a th:href="@{'/admin/showTeacher?page='${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+										<li><a th:href="@{'/admin/showTeacher?page='+${pagingVO.curentPageNo+4}}" th:if="${pagingVO.curentPageNo+4 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+4}"></a></li>
+									<li><a th:href="@{'/admin/showTeacher?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
+								</ul>
+							</nav>
+				    </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="container" id="footer">
+		<div class="row">
+			<div class="col-md-12"></div>
+		</div>
+	</div>
+</body>
+	<script type="text/javascript" th:inline="javascript">
+	$("#3").addClass("active");
+        function removeTeacher(id){
+        	$.ajax({
+        		type: "GET",
+        		async: true,
+        		data: {"id":id},
+        		url: "/admin/removeTeacher",
+        		success: function(data){
+        			if(data==true){
+        				alert("删除成功!");
+        				window.location.reload();
+        		}else{
+        			alert("删除失败!");
+        		}
+        	 }
+        	});
+        }
+        function addTeacher(){
+        	window.location.href="/admin/addTeacher";
+        }
+        function enterEditTeacher(id){
+        	window.location.href="/admin/enterEditTeacher?id="+id;
+        }
+ 	</script>
+</html>
