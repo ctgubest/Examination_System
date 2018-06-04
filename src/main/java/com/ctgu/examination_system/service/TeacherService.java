@@ -30,4 +30,5 @@ public interface TeacherService {
     List<Teacher> searchTeacher(String username);
 
     Integer getLargestTeaId();
+
 }
