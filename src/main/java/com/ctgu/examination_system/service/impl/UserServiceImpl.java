@@ -11,23 +11,37 @@ import com.ctgu.examination_system.entity.UserExample.Criteria;
 import com.ctgu.examination_system.mapper.UserMapper;
 import com.ctgu.examination_system.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	@Override
-	public User selectUserById(String userId, String password) {
-		if(userId != null || userId.length() > 0) {
-			UserExample userExample=new UserExample();
-			Criteria criteria=userExample.createCriteria();
-			criteria.andUseridEqualTo(userId);
-			criteria.andPasswordEqualTo(password);
-			List<User> list=userMapper.selectByExample(userExample);
-			if(list != null) {
-				return list.get(0);
-			}
-		}
+
+    @Override
+    public User Login(String userId, String password, HttpServletRequest request) {
+        if(userId != null || userId.length() > 0) {
+            User user = selectUserById(userId);
+            if (user != null){
+                if (password.equals(user.getPassword())){
+                    request.getSession().setAttribute("user",user);
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+	public User selectUserById(String userId) {
+        UserExample userExample=new UserExample();
+        Criteria criteria=userExample.createCriteria();
+        criteria.andUseridEqualTo(userId);
+        List<User> list=userMapper.selectByExample(userExample);
+        if(list != null) {
+            return list.get(0);
+        }
 		return null;
 	}
 	@Override
@@ -41,5 +55,13 @@ public class UserServiceImpl implements UserService {
 		criteria.andUseridEqualTo(studentId);
 		return userMapper.deleteByExample(userExample)==1;
 	}
+
+    @Override
+    public boolean updateUser(User user) {
+	    UserExample example = new UserExample();
+	    Criteria criteria = example.createCriteria();
+	    criteria.andUseridEqualTo(user.getUserid());
+        return userMapper.updateByExampleSelective(user, example) == 1;
+    }
 
 }

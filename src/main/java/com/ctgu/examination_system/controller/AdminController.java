@@ -250,4 +250,32 @@ public class AdminController {
         model.addAttribute("courseList", list);
         return "admin/showCourse";
     }
+
+    /***************************************密码管理************************************/
+    // 普通用户账号密码重置
+    @RequestMapping("/userPasswordRest")
+    public String showUserPasswordRest() throws Exception {
+        return "admin/userPasswordRest";
+    }
+
+    // 普通用户账号密码重置处理
+    @RequestMapping(value = "/userPasswordRest", method = {RequestMethod.POST})
+    public String userPasswordRest(User user) throws Exception {
+        User u = userService.selectUserById(user.getUserid());
+
+        if (u != null) {
+            if (userService.updateUser(user)){
+                return "admin/userPasswordRest";
+            }
+        } else {
+            return "/failedPage";
+        }
+        return "/failedPage";
+    }
+
+    // 本账户密码重置
+    @RequestMapping("/passwordRest")
+    public String showPasswordRest() throws Exception {
+        return "admin/passwordRest";
+    }
 }

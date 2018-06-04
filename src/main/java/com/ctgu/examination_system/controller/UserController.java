@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ctgu.examination_system.entity.User;
 import com.ctgu.examination_system.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class UserController {
 	@Autowired
@@ -26,8 +28,8 @@ public class UserController {
         return "login";
     }
     @RequestMapping(value="/user/login",method=RequestMethod.POST)
-    public String volidLogin(@RequestParam("userId") String userId,@RequestParam("password")String password) {
-        user=userService.selectUserById(userId, password);
+    public String volidLogin(@RequestParam("userId") String userId, @RequestParam("password")String password, HttpServletRequest request) {
+        user = userService.Login(userId, password,request);
         if (user == null) { //user等于空代表没有此用户
             return "redirect:/login";
         }

@@ -1,7 +1,6 @@
 package com.ctgu.examination_system.service;
 
 import com.ctgu.examination_system.entity.Teacher;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -30,4 +29,5 @@ public interface TeacherService {
     List<Teacher> searchTeacher(String username);
 
     Integer getLargestTeaId();
+
 }

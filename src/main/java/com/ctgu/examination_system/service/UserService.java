@@ -2,11 +2,17 @@ package com.ctgu.examination_system.service;
 
 import com.ctgu.examination_system.entity.User;
 
-public interface UserService {
-	
-	User selectUserById(String userId,String password);
+import javax.servlet.http.HttpServletRequest;
 
-	boolean addUser(User user);
+public interface UserService {
+
+    User Login(String userId, String password, HttpServletRequest request);
+
+    User selectUserById(String userId);
+
+    boolean addUser(User user);
 
 	boolean removeUser(String studentId);
+
+	boolean updateUser(User user);
 }
