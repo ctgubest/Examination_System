@@ -12,6 +12,7 @@ import java.util.List;
 public interface TeacherService {
     Integer getCountTeacher();
 
+    List<Teacher> findAll();
 
     List<Teacher> findByPaging(int i);
 

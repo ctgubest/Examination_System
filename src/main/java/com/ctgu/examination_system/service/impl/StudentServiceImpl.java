@@ -10,6 +10,7 @@ import com.ctgu.examination_system.entity.DepartmentExample;
 import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.Student;
 import com.ctgu.examination_system.entity.StudentExample;
+import com.ctgu.examination_system.entity.StudentExample.Criteria;
 import com.ctgu.examination_system.mapper.DepartmentMapper;
 import com.ctgu.examination_system.mapper.StudentMapper;
 import com.ctgu.examination_system.service.StudentService;
@@ -71,6 +72,16 @@ public class StudentServiceImpl implements StudentService{
         list = setDept(list);
         return list;
     }
+	@Override
+	public boolean findStudentByStudentId(String studentId) {
+		StudentExample studentExample=new StudentExample();
+		Criteria criteria=studentExample.createCriteria();
+		criteria.andStudentIdEqualTo(studentId);
+		List<Student>list=studentMapper.selectByExample(studentExample);
+		if(list==null || list.size()==0)
+			return true;
+		return false;
+	}
 
     @Override
     public int getLargestStuId() {

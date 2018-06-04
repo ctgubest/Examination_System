@@ -26,7 +26,7 @@
 							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/admin/selectStudent" id="form1" method="post">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="请输入姓名" name="username">
-									<span class="input-group-addon btn" id="sub">搜索</span>
+									<span class="input-group-addon btn" th:onClick="'javascript:selectStudent()'" id="sub">搜索</span>
 								</div>
 							</form>
 							<button class="btn btn-default col-md-2" style="margin-top: 20px" th:onClick="'javascript:addStudent()'">
@@ -70,10 +70,9 @@
 								<ul class="pagination" th:if ="${pagingVO != null}">
 									<li><a th:href="@{'/admin/showStudent?page='+${pagingVO.upPageNo}}">&laquo;上一页</a></li>
 									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
-										<li><a th:href="@{'/admin/showStudent?page='${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
-										<li><a th:href="@{'/admin/showStudent?page='${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
-										<li><a th:href="@{'/admin/showStudent?page='${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
-										<li><a th:href="@{'/admin/showStudent?page='+${pagingVO.curentPageNo+4}}" th:if="${pagingVO.curentPageNo+4 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+4}"></a></li>
+										<li><a th:href="@{'/admin/showStudent?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
+										<li><a th:href="@{'/admin/showStudent?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
+										<li><a th:href="@{'/admin/showStudent?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
 									<li><a th:href="@{'/admin/showStudent?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
 								</ul>
 							</nav>
@@ -90,7 +89,7 @@
 	</div>
 </body>
 	<script type="text/javascript" th:inline="javascript">
-	$("#nav li:nth-child(2)").addClass("active");
+	$("#li2").addClass("active");
         function removeStudent(id){
         	$.ajax({
         		type: "GET",
@@ -112,6 +111,9 @@
         }
         function enterEditStudent(id){
         	window.location.href="/admin/enterEditStudent?id="+id; 
+        }
+        function selectStudent(){
+        	$("#form1").submit();;
         }
  	</script>
 </html>

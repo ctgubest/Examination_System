@@ -83,6 +83,15 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return id + 1;
     }
+  
+  	@Override
+	public List<Teacher> findAll() {
+		TeacherExample teacherExample=new TeacherExample();
+		List<Teacher> teachers = teacherMapper.selectByExample(teacherExample);
+		if(teachers.size()>0)
+			return teachers;
+		return null;
+	}
 
     private List<Teacher> setDept(List<Teacher> list){
         for (Teacher teacher : list){

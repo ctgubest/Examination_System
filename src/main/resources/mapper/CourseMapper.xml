@@ -288,4 +288,11 @@
       course_type = #{courseType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 自定义分页查询 -->
+  <select id="findByPaging" parameterType="com.ctgu.examination_system.entity.PagingVO" resultMap="BaseResultMap">
+        select 
+		<include refid="Base_Column_List"/>
+        from course
+        limit #{toPageNo}, #{pageSize}
+    </select>
 </mapper>
