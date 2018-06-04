@@ -62,7 +62,7 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-2 control-label">周数</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" name="courseWeek" value="${course.courseWeek}" placeholder="请输入周数">
+									<input type="number" class="form-control" name="courseWeek" th:value="${course.courseWeek}" placeholder="请输入周数">
 								</div>
 							</div>
 							<div class="form-group">
@@ -86,7 +86,7 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-2 control-label">学分：</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" name="credit" value="${course.credit}" placeholder="请输入学分">
+									<input type="number" class="form-control" name="credit" th:value="${course.credit}" placeholder="请输入学分">
 								</div>
 							</div>
 							<div class="form-group" style="text-align: center">
@@ -108,6 +108,6 @@
 	</div>
 </body>
 	<script type="text/javascript">
-		$("#li1").addClass("active")
+		$("#1").addClass("active")
 	</script>
 </html>
