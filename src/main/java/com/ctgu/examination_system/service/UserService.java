@@ -1,7 +1,6 @@
 package com.ctgu.examination_system.service;
 
 import com.ctgu.examination_system.entity.User;
-import org.springframework.http.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
 

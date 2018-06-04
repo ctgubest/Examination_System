@@ -3,7 +3,6 @@ package com.ctgu.examination_system.mapper;
 import com.ctgu.examination_system.entity.Course;
 import com.ctgu.examination_system.entity.CourseExample;
 import com.ctgu.examination_system.entity.PagingVO;
-import com.ctgu.examination_system.entity.Student;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
