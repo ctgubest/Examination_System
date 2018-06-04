@@ -1,8 +1,5 @@
 package com.ctgu.examination_system.entity;
 
-import org.springframework.stereotype.Repository;
-
-@Repository
 public class Course {
     private Integer id;
 
@@ -10,7 +7,7 @@ public class Course {
 
     private String courseName;
 
-    private Integer teacherId;
+    private String teacherId;
 
     private String classroom;
 
@@ -48,12 +45,12 @@ public class Course {
         this.courseName = courseName == null ? null : courseName.trim();
     }
 
-    public Integer getTeacherId() {
+    public String getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(Integer teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId == null ? null : teacherId.trim();
     }
 
     public String getClassroom() {

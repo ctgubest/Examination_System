@@ -94,7 +94,6 @@ public class AdminController {
 
     @RequestMapping(value = "/selectStudent",method = RequestMethod.POST)
     public String searchStudent(@RequestParam("username") String username,Model model){
-        System.out.println(username);
         List<Student>list=studentService.searchStudent(username);
         model.addAttribute("studentList", list);
         return "admin/showStudent";

@@ -75,8 +75,12 @@ public class StudentServiceImpl implements StudentService{
     public List<Student> searchStudent(String username) {
 	    StudentExample example = new StudentExample();
         StudentExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameLike(username);
-        return studentMapper.selectByExample(example);
+        criteria.andUsernameLike("%"+username+"%");
+        List<Student> list = studentMapper.selectByExample(example);
+        for (Student student : list){
+            student.setDepartment(departmentMapper.selectByPrimaryKey(student.getDepartmentId()));
+        }
+        return list;
     }
 
 }
