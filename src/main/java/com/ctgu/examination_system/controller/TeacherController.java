@@ -30,12 +30,12 @@ public class TeacherController {
     private SelectedCourseService selectedCourseService;
 
     //显示我的课程
-    @GetMapping("showCourse")
+    @GetMapping("/showCourse")
     public String stuCourseShow(Model model, HttpServletRequest request) throws Exception {
 
         User user = (User)request.getSession().getAttribute("user");
-
         List<CourseCustom> list = courseService.findByTeacherID(user.getUserid());
+        System.out.println(list);
         model.addAttribute("courseList", list);
         return "teacher/showCourse";
     }

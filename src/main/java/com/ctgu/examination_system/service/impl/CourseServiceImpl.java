@@ -1,5 +1,7 @@
 package com.ctgu.examination_system.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.ctgu.examination_system.entity.*;
@@ -101,16 +103,21 @@ public class CourseServiceImpl implements CourseService {
 	    Criteria criteria = example.createCriteria();
 	    criteria.andTeacherIdEqualTo(teacherid);
         List<Course> courseList = courseMapper.selectByExample(example);
-        List<CourseCustom> result = null;
+        List<CourseCustom> result = new ArrayList<>();
         for (Course course : courseList){
             CourseCustom courseCustom = new CourseCustom();
             org.springframework.beans.BeanUtils.copyProperties(course,courseCustom);
             DepartmentExample deptExample = new DepartmentExample();
             DepartmentExample.Criteria criteria1 = deptExample.createCriteria();
-            criteria1.andDepartmentIdEqualTo(course.getCourseId());
-            courseCustom.setDeptName(departmentMapper.selectByExample(deptExample).get(0).getDepartmentName());
+            criteria1.andDepartmentIdEqualTo(course.getDepartmentId());
+            List<Department> departmentList = departmentMapper.selectByExample(deptExample);
+            if (departmentList != null && departmentList.size() > 0) {
+                System.out.println("ggggg");
+                courseCustom.setDeptName(departmentList.get(0).getDepartmentName());
+            }
             result.add(courseCustom);
         }
+        System.out.println(result.get(0).getCourseName());
         return result;
     }
 
