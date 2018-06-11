@@ -2,13 +2,12 @@ package com.ctgu.examination_system.service.impl;
 
 import java.util.List;
 
+import com.ctgu.examination_system.entity.*;
+import com.ctgu.examination_system.mapper.DepartmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ctgu.examination_system.entity.Course;
-import com.ctgu.examination_system.entity.CourseExample;
 import com.ctgu.examination_system.entity.CourseExample.Criteria;
-import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.mapper.CourseMapper;
 import com.ctgu.examination_system.service.CourseService;
 
@@ -17,6 +16,10 @@ public class CourseServiceImpl implements CourseService {
 
 	@Autowired
 	private CourseMapper courseMapper;
+
+	@Autowired
+	private DepartmentMapper departmentMapper;
+
 	@Override
 	public int getCountCourse() {
 		CourseExample courseExample=new CourseExample();
@@ -75,10 +78,10 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<Course> searchCourse(String username) {
+	public List<Course> searchCourse(String coursename) {
 		CourseExample courseExample=new CourseExample();
 		Criteria criteria=courseExample.createCriteria();
-		criteria.andCourseNameLike("%"+username+"%");
+		criteria.andCourseNameLike("%"+coursename+"%");
 		List<Course> list = courseMapper.selectByExample(courseExample);
 		return list;
 	}
@@ -90,6 +93,25 @@ public class CourseServiceImpl implements CourseService {
 	        return 100001;
         }
         return id + 1;
+    }
+
+    @Override
+    public List<CourseCustom> findByTeacherID(String teacherid) {
+	    CourseExample example = new CourseExample();
+	    Criteria criteria = example.createCriteria();
+	    criteria.andTeacherIdEqualTo(teacherid);
+        List<Course> courseList = courseMapper.selectByExample(example);
+        List<CourseCustom> result = null;
+        for (Course course : courseList){
+            CourseCustom courseCustom = new CourseCustom();
+            org.springframework.beans.BeanUtils.copyProperties(course,courseCustom);
+            DepartmentExample deptExample = new DepartmentExample();
+            DepartmentExample.Criteria criteria1 = deptExample.createCriteria();
+            criteria1.andDepartmentIdEqualTo(course.getCourseId());
+            courseCustom.setDeptName(departmentMapper.selectByExample(deptExample).get(0).getDepartmentName());
+            result.add(courseCustom);
+        }
+        return result;
     }
 
 }
