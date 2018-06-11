@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>课程信息显示</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 引入bootstrap -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<!-- 引入JQuery  bootstrap.js-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- 顶栏 -->
+	<div th:replace="student/top::#top"></div>
+	<!-- 中间主体 -->
+	<div class="container" id="content">
+		<div class="row">
+			<div th:replace="student/menu::#menu"></div>
+			<div class="col-md-10">
+				<div class="panel panel-default">
+				    <div class="panel-heading">
+						<div class="row">
+					    	<h1 class="col-md-5">已修课程</h1>
+						</div>
+				    </div>
+				    <table class="table table-bordered">
+					        <thead>
+					            <tr>
+									<th>课程号</th>
+									<th>课程名称</th>
+									<th>授课老师编号</th>
+									<th>上课地点</th>
+									<th>周数</th>
+									<th>上课时间</th>
+									<th>学分</th>
+									<th>院系编号</th>
+									<th>课程类型</th>
+									<th>成绩</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+									<tr th:foreach="selectedCourse:${selectedCourseList}" th:if="${selectedCourse.over}">
+										<td th:text="${selectedCourse.courseCustom.courseId}"></td>
+										<td th:text="${selectedCourse.courseCustom.courseName}"></td>
+										<td th:text="${selectedCourse.courseCustom.teacherId}"></td>
+										<td th:text="${selectedCourse.courseCustom.classroom}"></td>
+										<td th:text="${selectedCourse.courseCustom.courseWeek}"></td>
+										<td th:text="${selectedCourse.courseCustom.courseTime}"></td>
+										<td th:text="${selectedCourse.courseCustom.credit}"></td>
+										<td th:text="${selectedCourse.courseCustom.departmentId}"></td>
+										<td th:text="${selectedCourse.courseCustom.courseType}"></td>
+										<td style="color: red" th:text="${selectedCourse.score}"></td>
+									</tr>
+					        </tbody>
+				    </table>
+				    <div class="panel-footer">
+							<nav style="text-align: center">
+								<ul class="pagination" th:if="${pagingVO}!=null">
+									<li><a th:href="@{'/student/overCourse?page='+${pagingVO.upPageNo}}">&laquo;上一页</a></li>
+									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
+									<li><a th:href="@{'/student/overCourse?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
+									<li><a th:href="@{'/student/overCourse?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
+									<li><a th:href="@{'/student/overCourse?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+									<li><a th:href="@{'/student/overCourse?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
+								</ul>
+							</nav>
+				    </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="container" id="footer">
+		<div class="row">
+			<div class="col-md-12"></div>
+		</div>
+	</div>
+</body>
+	<script type="text/javascript">
+		$("#3").addClass("active")
+
+	</script>
+
+</html>
