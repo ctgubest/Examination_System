@@ -48,7 +48,6 @@ public class AdminController {
 	@Autowired
     private TeacherService teacherService;
 
-
 	/************************************学生管理部分***************************************/
 	@RequestMapping(value="/showStudent")
 	public String showStudent(Model model,Integer page) {

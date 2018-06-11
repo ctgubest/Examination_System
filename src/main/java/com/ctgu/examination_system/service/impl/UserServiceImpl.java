@@ -3,7 +3,6 @@ package com.ctgu.examination_system.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 import com.ctgu.examination_system.entity.User;
@@ -13,7 +12,6 @@ import com.ctgu.examination_system.mapper.UserMapper;
 import com.ctgu.examination_system.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl implements UserService {
