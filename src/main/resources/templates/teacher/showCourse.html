@@ -42,22 +42,22 @@
 									<th>周数</th>
 									<th>上课时间</th>
 									<th>学分</th>
-									<th>院系编号</th>
+									<th>院系</th>
 									<th>课程类型</th>
 									<th>操作</th>
 					            </tr>
 					        </thead>
 					        <tbody>
-								<tr th:foreach="course:${courseList}">
-									<td th:text="${course.courseId}"></td>
-									<td th:text="${course.courseName}"></td>
-									<td th:text="${course.teacheId}"></td>
-									<td th:text="${course.classroom}"></td>
-									<td th:text="${course.courseWeek}"></td>
-									<td th:text="${course.courseTime}"></td>
-									<td th:text="${course.credit}"></td>
-									<td th:text="${course.departmentId}"></td>
-									<td th:text="${course.courseType}"></td>
+                                <tr th:each="course:${courseList}" th:if="${courseList}!=null">
+                                    <td th:text="${course.courseId}">1</td>
+                                    <td th:text="${course.courseName}">数学</td>
+                                    <td th:text="${course.teacherId}">1001</td>
+                                    <td th:text="${course.classroom}">J5663</td>
+                                    <td th:text="${course.courseWeek}">18</td>
+                                    <td th:text="${course.courseTime}">周一</td>
+                                    <td th:text="${course.credit}">3</td>
+                                    <td th:text="${course.deptName}">101</td>
+                                    <td th:text="${course.courseType}">必修课</td>
 									<td>
 										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:gradeCourse('+${course.courseId}+')'">成绩</button>
 										<!--弹出框-->

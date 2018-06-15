@@ -35,7 +35,8 @@ public class TeacherController {
 
         User user = (User)request.getSession().getAttribute("user");
         List<CourseCustom> list = courseService.findByTeacherID(user.getUserid());
-        System.out.println(list);
+        System.out.println(list.get(0).getClassroom());
+        System.out.println(list.get(0).toString());
         model.addAttribute("courseList", list);
         return "teacher/showCourse";
     }

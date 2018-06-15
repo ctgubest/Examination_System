@@ -15,4 +15,11 @@ public class CourseCustom extends Course {
     public void setDeptName(String deptName) {
         this.deptName = deptName;
     }
+
+    @Override
+    public String toString() {
+        return "CourseCustom{" +
+                "deptName='" + deptName + '\'' +
+                '}';
+    }
 }
