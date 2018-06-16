@@ -24,8 +24,9 @@ public class UserController {
 	}
 
     @RequestMapping(value="/logout",method=RequestMethod.GET)
-    public String logout() {
-        return "login";
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+	    return "login";
     }
     @RequestMapping(value="/user/login",method=RequestMethod.POST)
     public String volidLogin(@RequestParam("userId") String userId, @RequestParam("password")String password, HttpServletRequest request) {

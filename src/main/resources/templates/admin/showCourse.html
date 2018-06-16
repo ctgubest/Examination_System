@@ -25,7 +25,7 @@
 					    	<h1 class="col-md-5">课程名单管理</h1>
 							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/admin/selectCourse" th:action="@{/admin/selectCourse}" id="form1" method="post">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="请输入课程名" name="username">
+									<input type="text" class="form-control" placeholder="请输入课程名" name="coursename">
 									<span class="input-group-addon btn" th:onclick="'javascript:selectCourse()'">搜索</span>
 								</div>
 							</form>
@@ -77,14 +77,14 @@
 									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
 									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
 									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
-									<li><a th:href="@{'/admin/showCourset?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
 									<li><a th:href="@{'/admin/showCourse?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
 								</ul>
 							</nav>
 				    </div>
 				</div>
 
-			</div>s
+			</div>
 		</div>
 	</div>
 	<div class="container" id="footer">

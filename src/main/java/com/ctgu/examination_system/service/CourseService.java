@@ -3,6 +3,7 @@ package com.ctgu.examination_system.service;
 import java.util.List;
 
 import com.ctgu.examination_system.entity.Course;
+import com.ctgu.examination_system.entity.CourseCustom;
 
 public interface CourseService {
 
@@ -20,7 +21,10 @@ public interface CourseService {
 
 	boolean addCourse(Course course);
 
-	List<Course> searchCourse(String username);
+	List<Course> searchCourse(String coursename);
 
     Integer getLargestCourId();
+
+    //根据教师id查询课程
+    List<CourseCustom> findByTeacherID(String userid);
 }

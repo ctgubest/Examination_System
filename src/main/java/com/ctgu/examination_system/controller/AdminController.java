@@ -48,7 +48,6 @@ public class AdminController {
 	@Autowired
     private TeacherService teacherService;
 
-
 	/************************************学生管理部分***************************************/
 	@RequestMapping(value="/showStudent")
 	public String showStudent(Model model,Integer page) {
@@ -244,9 +243,8 @@ public class AdminController {
         return "redirect:/admin/showCourse";
     }
     @RequestMapping(value = "/selectCourse",method = RequestMethod.POST)
-    public String searchCourse(@RequestParam("username") String username,Model model) {
-        System.out.println(username);
-        List<Course> list = courseService.searchCourse(username);
+    public String searchCourse(@RequestParam("coursename") String coursename,Model model) {
+        List<Course> list = courseService.searchCourse(coursename);
         model.addAttribute("courseList", list);
         return "admin/showCourse";
     }

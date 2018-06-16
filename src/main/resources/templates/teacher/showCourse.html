@@ -23,10 +23,10 @@
 				    <div class="panel-heading">
 						<div class="row">
 					    	<h1 class="col-md-5">我教授的课程</h1>
-							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/admin/selectCourse" id="form1" method="post">
+							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/teacher/selectCourse" th:action="@{/teacher/selectCourse}"id="form1" method="post">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="请输入课程名" name="findByName">
-									<span class="input-group-addon btn" onclick="document.getElementById('form1').submit" id="sub">搜索</span>
+									<input type="text" class="form-control" placeholder="请输入课程名" name="courseName">
+									<span class="input-group-addon btn" onclick="'javascript:selectCourse()'" id="sub">搜索</span>
 								</div>
 							</form>
 
@@ -38,27 +38,28 @@
 									<th>课程号</th>
 									<th>课程名称</th>
 									<th>授课老师编号</th>
-									<th>上课时间</th>
 									<th>上课地点</th>
 									<th>周数</th>
-									<th>课程类型</th>
+									<th>上课时间</th>
 									<th>学分</th>
+									<th>院系</th>
+									<th>课程类型</th>
 									<th>操作</th>
 					            </tr>
 					        </thead>
 					        <tbody>
-							<th:forEach  items="${courseList}" var="item">
-								<tr>
-									<td>${item.courseid}</td>
-									<td>${item.coursename}</td>
-									<td>${item.teacherid}</td>
-									<td>${item.coursetime}</td>
-									<td>${item.classroom}</td>
-									<td>${item.courseweek}</td>
-									<td>${item.coursetype}</td>
-									<td>${item.score}</td>
+                                <tr th:each="course:${courseList}" th:if="${courseList}!=null">
+                                    <td th:text="${course.courseId}">1</td>
+                                    <td th:text="${course.courseName}">数学</td>
+                                    <td th:text="${course.teacherId}">1001</td>
+                                    <td th:text="${course.classroom}">J5663</td>
+                                    <td th:text="${course.courseWeek}">18</td>
+                                    <td th:text="${course.courseTime}">周一</td>
+                                    <td th:text="${course.credit}">3</td>
+                                    <td th:text="${course.deptName}">101</td>
+                                    <td th:text="${course.courseType}">必修课</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='/teacher/gradeCourse?id=${item.courseid}'">成绩</button>
+										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:gradeCourse('+${course.courseId}+')'">成绩</button>
 										<!--弹出框-->
 									</td>
 								</tr>
@@ -66,27 +67,16 @@
 					        </tbody>
 				    </table>
 				    <div class="panel-footer">
-						<th:if test="${pagingVO != null}">
 							<nav style="text-align: center">
-								<ul class="pagination">
-									<li><a href="/student/showCourse?page=${pagingVO.upPageNo}">&laquo;上一页</a></li>
-									<li class="active"><a href=""></a></li>
-									<th:if test="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}">
-										<li><a href="/student/showCourse?page=${pagingVO.curentPageNo+1}">1</a></li>
-									</th:if>
-									<th:if test="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}">
-										<li><a href="/student/showCourse?page=${pagingVO.curentPageNo+2}">2</a></li>
-									</th:if>
-									<th:if test="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}">
-										<li><a href="/student/showCourse?page=${pagingVO.curentPageNo+3}">3</a></li>
-									</th:if>
-									<th:if test="${pagingVO.curentPageNo+4 <= pagingVO.totalCount}">
-										<li><a href="/student/showCourse?page=${pagingVO.curentPageNo+4}">4</a></li>
-									</th:if>
-									<li><a href="/student/showCourse?page=${pagingVO.totalCount}">最后一页&raquo;</a></li>
+								<ul class="pagination" th:if="${pagingVO}!=null">
+									<li><a th:href="@{'/teacher/showCourse?page='+${pagingVO.upPageNo}}">&laquo;上一页</a></li>
+									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
+									<li><a th:href="@{'/teacher/showCourse?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
+									<li><a th:href="@{'/teacher/showCourse?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
+									<li><a th:href="@{'/teacher/showCourse?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+									<li><a th:href="@{'/teacher/showCourse?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
 								</ul>
 							</nav>
-						</th:if>
 				    </div>
 				</div>
 
@@ -100,16 +90,7 @@
 	</div>
 </body>
 	<script type="text/javascript">
-		$("#nav li:nth-child(1)").addClass("active")
-        <th:if test="${pagingVO != null}">
-        if (${pagingVO.curentPageNo} == ${pagingVO.totalCount}) {
-            $(".pagination li:last-child").addClass("disabled")
-        };
-
-        if (${pagingVO.curentPageNo} == ${1}) {
-            $(".pagination li:nth-child(1)").addClass("disabled")
-        };
-        </th:if>
+		$("#1").addClass("active")
 
         function confirmd() {
             var msg = "您真的确定要删除吗？！";
@@ -120,8 +101,11 @@
             }
         }
 
-        $("#sub").click(function () {
-            $("#form1").submit();
-        });
+        function selectCourse(){
+        	$("#form1").submit();
+        }
+        function gradeCourse(courseId){
+        	window.location.href="/teacher/gradeCourse?courseId="+courseId;
+        }
 	</script>
 </html>

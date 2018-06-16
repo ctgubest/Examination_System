@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>课程信息显示</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 引入bootstrap -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<!-- 引入JQuery  bootstrap.js-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+	<!-- 顶栏 -->
+	<div th:replace="teacher/top::#top"></div>
+	<!-- 中间主体 -->
+	<div class="container" id="content">
+		<div class="row">
+			<div th:replace="teacher/menu::#menu"></div>
+			<div class="col-md-10">
+				<div class="panel panel-default">
+				    <div class="panel-heading">
+						<div class="row">
+					    	<h1 class="col-md-5">已选该课程学生名单</h1>
+						</div>
+				    </div>
+				    <table class="table table-bordered">
+					        <thead>
+					            <tr>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>分数</th>
+									<th>操作</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+									<tr th:each="selectedCourse:${selectedCourseList}" th:switch="${selectedCourse.over}">
+										<td th:text="${selectedCourse.studentId}"></td>
+										<td th:text="${selectedCourse.student.username}"></td>
+										<span th:case="false">
+											<td>未打分</td>
+											<td>
+												<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:score('+${selectedCourse.studentId}+','+${selectedCourse.courseId}+')'">打分</button>
+											</td>
+										</span>
+										<span th:case="true">
+											<td th:text="${selectedCourse.score}"></td>
+											<td>已打分</td>
+										</span>
+									</tr>
+					        </tbody>
+				    </table>
+				    <div class="panel-footer">
+							<nav style="text-align: center">
+								<ul class="pagination" th:if="${pagingVO}!=null">
+									<li><a th:href="@{'/teacher/gradeCourse?page='+${pagingVO.upPageNo}}">&laquo;上一页</a></li>
+									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
+									<li><a th:href="@{'/teacher/gradeCourse?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
+									<li><a th:href="@{'/teacher/gradeCourse?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
+									<li><a th:href="@{'/teacher/gradeCourse?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+									<li><a th:href="@{'/teacher/gradeCourse?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
+								</ul>
+							</nav>
+				    </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="container" id="footer">
+		<div class="row">
+			<div class="col-md-12"></div>
+		</div>
+	</div>
+</body>
+	<script type="text/javascript">
+		$("#1").addClass("active")
+        function confirmd() {
+            var msg = "您真的确定要删除吗？！";
+            if (confirm(msg)==true){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        $("#sub").click(function () {
+            $("#form1").submit();
+        });
+        function score(studentId,courseId){
+        	window.location.href="/teacher/mark?studentId="+studentId+"&courseId="+courseId;
+        }
+	</script>
+</html>

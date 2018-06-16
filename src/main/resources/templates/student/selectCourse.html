@@ -15,22 +15,17 @@
 </head>
 <body>
 	<!-- 顶栏 -->
-	<div th:replace="student/top::#top"></div>
+	<div th:replace="student/menu::#menu"></div>
 	<!-- 中间主体 -->
 	<div class="container" id="content">
 		<div class="row">
-			<div th:replace="student/menu::#menu"></div>
+			<div th:replace="student/top::#top"></div>
 			<div class="col-md-10">
 				<div class="panel panel-default">
 				    <div class="panel-heading">
 						<div class="row">
-					    	<h1 class="col-md-5">课程列表</h1>
-							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/student/selectCourse" th:action="@{/student/selectCourse}" id="form1" method="post">
-								<div class="input-group">
-									<input type="text" class="form-control" placeholder="请输入课程名" name="courseName">
-									<span class="input-group-addon btn" th:onclick="'javascript:selectCourse()'" id="sub">搜索</span>
-								</div>
-							</form>
+					    	<h1 class="col-md-5">已选课程</h1>
+
 
 						</div>
 				    </div>
@@ -50,20 +45,19 @@
 					            </tr>
 					        </thead>
 					        <tbody>
-								<tr th:each="course:${courseList}" th:if="${courseList}!=null">
-									<td th:text="${course.courseId}"></td>
-									<td th:text="${course.courseName}"></td>
-									<td th:text="${course.teacheId}"></td>
-									<td th:text="${course.classroom}"></td>
-									<td th:text="${course.courseWeek}"></td>
-									<td th:text="${course.courseTime}"></td>
-									<td th:text="${course.credit}"></td>
-									<td th:text="${course.departmentId}"></td>
-									<td th:text="${course.courseType}"></td>
-									<td>
-										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:stuSelectedCourse('+${course.courseId}+')'">选课</button>
-									</td>
-								</tr>
+								<tr th:each="selectedCourse:${selectedCourseList}" th:if="${!selectedCourse.over}">
+									<td th:text="${selectedCourse.courseCustom.courseId}"></td>
+									<td th:text="${selectedCourse.courseCustom.courseName}"></td>
+									<td th:text="${selectedCourse.courseCustom.teacherId}"></td>
+									<td th:text="${selectedCourse.courseCustom.classroom}"></td>
+									<td th:text="${selectedCourse.courseCustom.courseWeek}"></td>
+									<td th:text="${selectedCourse.courseCustom.courseTime}"></td>
+									<td th:text="${selectedCourse.courseCustom.credit}"></td>
+									<td th:text="${selectedCourse.courseCustom.depName}"></td>
+									<td th:text="${selectedCourse.courseCustom.courseType}">
+											<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:outCourse('+${selectedCourse.courseId}+')'">退课</button>
+										</td>
+									</tr>
 					        </tbody>
 				    </table>
 				    <div class="panel-footer">
@@ -73,7 +67,7 @@
 									<li class="active"><a href="" th:text="${pagingVO.curentPageNo}"></a></li>
 									<li><a th:href="@{'/student/showCourse?page='+${pagingVO.curentPageNo+1}}" th:if="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+1}"></a></li>
 									<li><a th:href="@{'/student/showCourse?page='+${pagingVO.curentPageNo+2}}" th:if="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+2}"></a></li>
-									<li><a th:href="@{'/student/showCourse?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
+									<li><a th:href="@{'/student/showCourset?page='+${pagingVO.curentPageNo+3}}" th:if="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}" th:text="${pagingVO.curentPageNo+3}"></a></li>
 									<li><a th:href="@{'/student/showCourse?page='+${pagingVO.totalCount}}">最后一页&raquo;</a></li>
 								</ul>
 							</nav>
@@ -90,8 +84,7 @@
 	</div>
 </body>
 	<script type="text/javascript">
-		$("#1").addClass("active")
-        
+		$("#2").addClass("active")
         function confirmd() {
             var msg = "您真的确定要删除吗？！";
             if (confirm(msg)==true){
@@ -101,11 +94,11 @@
             }
         }
 
-        function selectCourse(){
-        	$("#form1").submit();
-        }
-        function stuSelectedCourse(courseId){
-        	window.location.href="/student/stuSelectedCourse?courseId="+courseId;
+        $("#sub").click(function () {
+            $("#form1").submit();
+        });
+        function outCourse(courseId){
+        	window.location.href="/student/outCourse?courseId="+courseId;
         }
 	</script>
 </html>
