@@ -37,17 +37,20 @@
 					            </tr>
 					        </thead>
 					        <tbody>
-									<tr th:foreach="selectedCourse:${selectedCourseList}" th:switch="${selectedCourse.over}">
+									<tr th:each="selectedCourse:${selectedCourseList}" th:switch="${selectedCourse.over}">
 										<td th:text="${selectedCourse.studentId}"></td>
-										<td th:text="${selectedCourse.username}"></td>
-											<td th:case="false">未打分</td>
-											<td th:case="false">
-												<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:score('+${selectedCourse.studentId}+${selectedCourse.courseId}+')'">打分</button>
+										<td th:text="${selectedCourse.student.username}"></td>
+										<span th:case="false">
+											<td>未打分</td>
+											<td>
+												<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:score('+${selectedCourse.studentId}+','+${selectedCourse.courseId}+')'">打分</button>
 											</td>
-											<td th:case="true" th:text="${selectedCourse.score}"></td>
-											<td th:case="true">已打分</td>
+										</span>
+										<span th:case="true">
+											<td th:text="${selectedCourse.score}"></td>
+											<td>已打分</td>
+										</span>
 									</tr>
-								</c:forEach>
 					        </tbody>
 				    </table>
 				    <div class="panel-footer">
@@ -88,7 +91,7 @@
             $("#form1").submit();
         });
         function score(studentId,courseId){
-        	window.locatin.href="/teacher/score?studentId="+studentId+"&courseId="+courseId;
+        	window.location.href="/teacher/mark?studentId="+studentId+"&courseId="+courseId;
         }
 	</script>
 </html>

@@ -51,7 +51,7 @@
 					            </tr>
 					        </thead>
 					        <tbody>
-					        	<tr th:each="teacher:${teacherList}">
+					        	<tr th:each="teacher:${teacherList}" th:if="${teacherList}!=null">
 									<td th:text="${teacher.teacherId}">2015112105</td>
 									<td th:text="${teacher.username}">汪俊</td>
 									<td th:text="${teacher.gendar==1} ? '男' : '女'">女</td>

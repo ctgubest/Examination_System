@@ -41,7 +41,11 @@
 					            </tr>
 					        </thead>
 					        <tbody>
+<<<<<<< HEAD
 									<tr th:foreach="selectedCourse:${selectedCourseList}" th:if="${selectedCourse.over}">
+=======
+									<tr th:each="selectedCourse:${selectedCourseList}" th:if="${selectedCourse.over}">
+>>>>>>> 8abf0f99655de7bde4be6522b143acad688a9410
 										<td th:text="${selectedCourse.courseCustom.courseId}"></td>
 										<td th:text="${selectedCourse.courseCustom.courseName}"></td>
 										<td th:text="${selectedCourse.courseCustom.teacherId}"></td>

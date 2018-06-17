@@ -83,7 +83,7 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
         SelectedcourseExample.Criteria criteria = example.createCriteria();
         criteria.andCourseIdEqualTo(selectedCourseCustom.getCourseId());
         criteria.andStudentIdEqualTo(selectedCourseCustom.getStudentId());
-        selectedcourseMapper.updateByExample(selectedCourseCustom, example);
+        selectedcourseMapper.updateByExampleSelective(selectedCourseCustom, example);
 
     }
 

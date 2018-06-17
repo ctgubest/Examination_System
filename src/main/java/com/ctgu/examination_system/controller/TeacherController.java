@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class TeacherController {
 
     //显示成绩
     @GetMapping("/gradeCourse")
-    public String gradeCourse(Integer id, Model model) throws Exception {
+    public String gradeCourse(@RequestParam("courseId")Integer id, Model model) throws Exception {
         if (id == null) {
             return "";
         }
@@ -60,7 +62,7 @@ public class TeacherController {
 
         model.addAttribute("selectedCourse", selectedCourseCustom);
 
-        return "teacher/mark";
+        return "teacher/score";
     }
 
     //打分
@@ -69,7 +71,7 @@ public class TeacherController {
 
         selectedCourseService.updataOne(scc);
 
-        return "redirect:/teacher/gradeCourse?id="+scc.getCourseId();
+        return "redirect:/teacher/gradeCourse?courseId="+scc.getCourseId();
     }
 
     @GetMapping("/passwordRest")
