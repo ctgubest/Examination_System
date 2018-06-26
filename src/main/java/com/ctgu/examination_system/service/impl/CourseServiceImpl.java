@@ -1,11 +1,11 @@
 package com.ctgu.examination_system.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.ctgu.examination_system.entity.*;
 import com.ctgu.examination_system.mapper.DepartmentMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +26,27 @@ public class CourseServiceImpl implements CourseService {
 	public int getCountCourse() {
 		CourseExample courseExample=new CourseExample();
 		Integer courseCount=courseMapper.countByExample(courseExample);
-	return courseCount;
+	    return courseCount;
 	}
 
 	@Override
-	public List<Course> findByPaging(int i) {
+	public List<CourseCustom> findByPaging(int i) {
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         List<Course> list=courseMapper.findByPaging(pagingVO);
-        if (list == null || list.size() == 0){
-            return null;
+        List<CourseCustom> result = new ArrayList<>();
+        if (list != null || list.size() > 0){
+            for (Course course : list){
+                CourseCustom cc = new CourseCustom();
+                BeanUtils.copyProperties(course, cc);
+                DepartmentExample  example = new DepartmentExample();
+                DepartmentExample.Criteria criteria = example.createCriteria();
+                criteria.andDepartmentIdEqualTo(course.getDepartmentId());
+                cc.setDeptName(departmentMapper.selectByExample(example).get(0).getDepartmentName());
+                result.add(cc);
+            }
         }
-        return list;
+        return result;
 	}
 
 	@Override

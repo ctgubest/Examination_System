@@ -24,8 +24,8 @@ public class StudentServiceImpl implements StudentService{
 	private DepartmentMapper departmentMapper;
 	@Override
 	public Integer getCountStudent() {
-			StudentExample studentExample=new StudentExample();
-			Integer studentCount=studentMapper.countByExample(studentExample);
+        StudentExample studentExample=new StudentExample();
+        Integer studentCount=studentMapper.countByExample(studentExample);
 		return studentCount;
 	}
 	@Override

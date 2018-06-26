@@ -9,7 +9,7 @@ public interface CourseService {
 
 	int getCountCourse();
 
-	List<Course> findByPaging(int i);
+	List<CourseCustom> findByPaging(int i);
 
 	boolean removeCourse(Integer id);
 

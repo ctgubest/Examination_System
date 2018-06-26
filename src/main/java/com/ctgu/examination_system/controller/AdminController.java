@@ -2,6 +2,7 @@ package com.ctgu.examination_system.controller;
 
 import java.util.List;
 
+import com.ctgu.examination_system.entity.*;
 import com.ctgu.examination_system.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ctgu.examination_system.entity.Course;
-import com.ctgu.examination_system.entity.Department;
-import com.ctgu.examination_system.entity.PagingVO;
-import com.ctgu.examination_system.entity.Student;
-import com.ctgu.examination_system.entity.Teacher;
-import com.ctgu.examination_system.entity.User;
 import com.ctgu.examination_system.service.CourseService;
 import com.ctgu.examination_system.service.DepartmentService;
 import com.ctgu.examination_system.service.StudentService;
@@ -189,7 +184,7 @@ public class AdminController {
     /***********************************课程管理部分**************************************/
     @RequestMapping(value="/showCourse",method=RequestMethod.GET)
 	public String showCourse(Model model,Integer page) {
-		List<Course> list=null;
+		List<CourseCustom> list=null;
 		PagingVO pagingVO=new PagingVO();
 		pagingVO.setTotalCount(courseService.getCountCourse());
 		if(page==null || page==0) {

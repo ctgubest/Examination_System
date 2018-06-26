@@ -27,8 +27,11 @@ public interface SelectedCourseService {
     //选课
     void save(SelectedCourseCustom selectedCourseCustom) throws Exception;
 
-    //根据学生id查找课程
-    List<SelectedCourseCustom> findByStudentID(Integer id) throws Exception;
+    //根据学生id查找已选课程
+    List<SelectedCourseCustom> findSelectedCourseByStudentID(String StudentId) throws Exception;
+
+    //根据学生id查找已修课程
+    List<SelectedCourseCustom> findOveredCourseByStudentID(String StudentId) throws Exception;
 
     //退课
     void remove(SelectedCourseCustom selectedCourseCustom) throws Exception;

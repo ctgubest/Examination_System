@@ -45,11 +45,7 @@
 					            </tr>
 					        </thead>
 					        <tbody>
-<<<<<<< HEAD
-								<tr th:foreach="selectedCourse:${selectedCourseList}" th:if="${!selectedCourse.over}">
-=======
 								<tr th:each="selectedCourse:${selectedCourseList}" th:if="${!selectedCourse.over}">
->>>>>>> 8abf0f99655de7bde4be6522b143acad688a9410
 									<td th:text="${selectedCourse.courseCustom.courseId}"></td>
 									<td th:text="${selectedCourse.courseCustom.courseName}"></td>
 									<td th:text="${selectedCourse.courseCustom.teacherId}"></td>
@@ -57,7 +53,7 @@
 									<td th:text="${selectedCourse.courseCustom.courseWeek}"></td>
 									<td th:text="${selectedCourse.courseCustom.courseTime}"></td>
 									<td th:text="${selectedCourse.courseCustom.credit}"></td>
-									<td th:text="${selectedCourse.courseCustom.depName}"></td>
+									<td th:text="${selectedCourse.courseCustom.deptName}"></td>
 									<td th:text="${selectedCourse.courseCustom.courseType}">
 											<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:outCourse('+${selectedCourse.courseId}+')'">退课</button>
 										</td>

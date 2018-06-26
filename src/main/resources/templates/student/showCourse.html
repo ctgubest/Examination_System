@@ -44,25 +44,21 @@
 									<th>周数</th>
 									<th>上课时间</th>
 									<th>学分</th>
-									<th>院系编号</th>
+									<th>院系</th>
 									<th>课程类型</th>
 									<th>操作</th>
 					            </tr>
 					        </thead>
 					        <tbody>
-<<<<<<< HEAD
-								<tr th:foreach="course:${courseList}">
-=======
 								<tr th:each="course:${courseList}" th:if="${courseList}!=null">
->>>>>>> 8abf0f99655de7bde4be6522b143acad688a9410
 									<td th:text="${course.courseId}"></td>
 									<td th:text="${course.courseName}"></td>
-									<td th:text="${course.teacheId}"></td>
+									<td th:text="${course.teacherId}"></td>
 									<td th:text="${course.classroom}"></td>
 									<td th:text="${course.courseWeek}"></td>
 									<td th:text="${course.courseTime}"></td>
 									<td th:text="${course.credit}"></td>
-									<td th:text="${course.departmentId}"></td>
+									<td th:text="${course.deptName}"></td>
 									<td th:text="${course.courseType}"></td>
 									<td>
 										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:stuSelectedCourse('+${course.courseId}+')'">选课</button>
