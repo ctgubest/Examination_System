@@ -1,18 +1,17 @@
 package com.ctgu.examination_system.controller;
 
 import com.ctgu.examination_system.entity.CourseCustom;
+import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.SelectedCourseCustom;
 import com.ctgu.examination_system.entity.User;
 import com.ctgu.examination_system.service.CourseService;
 import com.ctgu.examination_system.service.SelectedCourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private CourseService courseService;
@@ -33,13 +33,29 @@ public class TeacherController {
 
     //显示我的课程
     @GetMapping("/showCourse")
-    public String stuCourseShow(Model model, HttpServletRequest request) throws Exception {
+    public String stuCourseShow(Model model, Integer page, HttpServletRequest request) throws Exception {
 
         User user = (User)request.getSession().getAttribute("user");
-        List<CourseCustom> list = courseService.findByTeacherID(user.getUserid());
-        System.out.println(list.get(0).getClassroom());
-        System.out.println(list.get(0).toString());
-        model.addAttribute("courseList", list);
+
+        List<CourseCustom> courseList = null;
+        //页码对象
+        PagingVO pagingVO = new PagingVO();
+        //设置总页数
+        pagingVO.setTotalCount(courseService.getMyCountCourse(user.getUserid(),""));
+        logger.info("总页数：{}",pagingVO.getTotalCount());
+        if (page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            courseList = courseService.searchMyCourseByPage(user.getUserid(),"",1);
+        } else {
+            pagingVO.setToPageNo(page);
+            courseList = courseService.searchMyCourseByPage(user.getUserid(),"",page);
+        }
+        model.addAttribute("courseList", courseList);
+        model.addAttribute("pagingVO", pagingVO);
+
+        logger.info(courseList.get(0).getClassroom());
+        logger.info(courseList.get(0).toString());
+        model.addAttribute("courseList", courseList);
         return "teacher/showCourse";
     }
 
@@ -72,6 +88,27 @@ public class TeacherController {
         selectedCourseService.updataOne(scc);
 
         return "redirect:/teacher/gradeCourse?courseId="+scc.getCourseId();
+    }
+
+    @RequestMapping(value = "/selectCourse",method = RequestMethod.POST)
+    public String searchCourse(@RequestParam("courseName") String courseName, Integer page, Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        List<CourseCustom> courseList = null;
+        //页码对象
+        PagingVO pagingVO = new PagingVO();
+        //设置总页数
+        pagingVO.setTotalCount(courseService.getMyCountCourse(user.getUserid(),""));
+        if (page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            courseList = courseService.searchMyCourseByPage(user.getUserid(),courseName,1);
+        } else {
+            pagingVO.setToPageNo(page);
+            courseList = courseService.searchMyCourseByPage(user.getUserid(),courseName,page);
+        }
+        model.addAttribute("courseList", courseList);
+        model.addAttribute("pagingVO", pagingVO);
+
+        return "teacher/showCourse";
     }
 
     @GetMapping("/passwordRest")
