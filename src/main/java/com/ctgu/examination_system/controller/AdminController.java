@@ -251,8 +251,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/addCourse",method = RequestMethod.POST)
-    public String addCourse(Course course){
+    public String addCourse(Course course,@RequestParam("courseTime1")String courseTime1,@RequestParam("courseTime2")String courseTime2){
         if(courseService.findByCourseId(course.getCourseId())) {
+        	String couseTime = courseTime1+courseTime2;
+        	course.setCourseTime(Short.valueOf(couseTime));
         	courseService.addCourse(course);
         }
         return "redirect:/admin/showCourse";
