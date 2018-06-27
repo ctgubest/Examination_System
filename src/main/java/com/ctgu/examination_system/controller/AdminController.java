@@ -48,7 +48,7 @@ public class AdminController {
 	public String showStudent(Model model,Integer page) {
 		List<Student> list=null;
 		PagingVO pagingVO=new PagingVO();
-		pagingVO.setTotalCount(studentService.getCountStudent());
+		pagingVO.setTotalCount(studentService.getCountStudent(""));
 		if(page==null || page==0) {
 			pagingVO.setToPageNo(1);
 			list=studentService.findByPaging(1);
@@ -106,9 +106,19 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/selectStudent",method = RequestMethod.POST)
-    public String searchStudent(@RequestParam("username") String username,Model model){
-        List<Student>list=studentService.searchStudent(username);
+    public String searchStudent(@RequestParam("username") String username, Integer page, Model model){
+        List<Student> list = null;
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setTotalCount(studentService.getCountStudent(username));
+        if(page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            list = studentService.searchStudentByPage(username,1);
+        }else {
+            pagingVO.setToPageNo(page);
+            list = studentService.searchStudentByPage(username,page);
+        }
         model.addAttribute("studentList", list);
+        model.addAttribute("pagingVO", pagingVO);
         return "admin/showStudent";
     }
     /***************************************教师管理部分*************************************/
@@ -116,7 +126,7 @@ public class AdminController {
     public String showTeacher(Model model, Integer page){
         List<Teacher> list = null;
         PagingVO pagingVO=new PagingVO();
-        pagingVO.setTotalCount(teacherService.getCountTeacher());
+        pagingVO.setTotalCount(teacherService.getCountTeacher(""));
         if(page==null || page==0) {
             pagingVO.setToPageNo(1);
             list=teacherService.findByPaging(1);
@@ -175,9 +185,19 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/selectTeacher",method = RequestMethod.POST)
-    public String searchTeacher(@RequestParam("username") String username,Model model){
-        List<Teacher> list = teacherService.searchTeacher(username);
+    public String searchTeacher(@RequestParam("username") String username, Integer page, Model model){
+        List<Teacher> list = null;
+        PagingVO pagingVO=new PagingVO();
+        pagingVO.setTotalCount(teacherService.getCountTeacher(username));
+        if(page==null || page==0) {
+            pagingVO.setToPageNo(1);
+            list=teacherService.searchTeacherByPage(username,1);
+        }else {
+            pagingVO.setToPageNo(page);
+            list=teacherService.searchTeacherByPage(username,page);
+        }
         model.addAttribute("teacherList", list);
+        model.addAttribute("pagingVO", pagingVO);
         return "admin/showTeacher";
     }
 
@@ -186,7 +206,7 @@ public class AdminController {
 	public String showCourse(Model model,Integer page) {
 		List<CourseCustom> list=null;
 		PagingVO pagingVO=new PagingVO();
-		pagingVO.setTotalCount(courseService.getCountCourse());
+		pagingVO.setTotalCount(courseService.getCountCourse(""));
 		if(page==null || page==0) {
 			pagingVO.setToPageNo(1);
 			list=courseService.findByPaging(1);
@@ -238,9 +258,22 @@ public class AdminController {
         return "redirect:/admin/showCourse";
     }
     @RequestMapping(value = "/selectCourse",method = RequestMethod.POST)
-    public String searchCourse(@RequestParam("coursename") String coursename,Model model) {
-        List<CourseCustom> list = courseService.searchCourse(coursename);
-        model.addAttribute("courseList", list);
+    public String searchCourse(@RequestParam("coursename") String courseName, Integer page, Model model) {
+        List<CourseCustom> courseList = null;
+        //页码对象
+        PagingVO pagingVO = new PagingVO();
+        //设置总页数
+        pagingVO.setTotalCount(courseService.getCountCourse(courseName));
+        if (page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            courseList = courseService.searchCourseByPage(courseName,1);
+        } else {
+            pagingVO.setToPageNo(page);
+            courseList = courseService.searchCourseByPage(courseName,page);
+        }
+        model.addAttribute("courseList", courseList);
+        model.addAttribute("pagingVO", pagingVO);
+
         return "admin/showCourse";
     }
 
