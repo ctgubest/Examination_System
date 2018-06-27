@@ -26,7 +26,7 @@
 							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/teacher/selectCourse" th:action="@{/teacher/selectCourse}"id="form1" method="post">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="请输入课程名" name="courseName">
-									<span class="input-group-addon btn" onclick="'javascript:selectCourse()'" id="sub">搜索</span>
+									<span class="input-group-addon btn" th:onclick="'javascript:selectCourse()'" id="sub">搜索</span>
 								</div>
 							</form>
 

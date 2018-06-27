@@ -26,7 +26,7 @@
 							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/admin/selectTeacher" id="form1" method="post">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="请输入姓名" name="username">
-									<span class="input-group-addon btn" id="sub">搜索</span>
+                                    <span class="input-group-addon btn" th:onClick="'javascript:selectTeacher()'" id="sub">搜索</span>
 								</div>
 							</form>
 							<button class="btn btn-default col-md-2" style="margin-top: 20px" th:onClick="'javascript:addTeacher()'">
@@ -117,5 +117,8 @@
         function enterEditTeacher(id){
         	window.location.href="/admin/enterEditTeacher?id="+id;
         }
+    function selectTeacher(){
+        $("#form1").submit();;
+    }
  	</script>
 </html>
