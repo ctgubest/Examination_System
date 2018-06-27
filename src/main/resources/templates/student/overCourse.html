@@ -35,7 +35,7 @@
 									<th>周数</th>
 									<th>上课时间</th>
 									<th>学分</th>
-									<th>院系编号</th>
+									<th>院系</th>
 									<th>课程类型</th>
 									<th>成绩</th>
 					            </tr>
@@ -49,7 +49,7 @@
 										<td th:text="${selectedCourse.courseCustom.courseWeek}"></td>
 										<td th:text="${selectedCourse.courseCustom.courseTime}"></td>
 										<td th:text="${selectedCourse.courseCustom.credit}"></td>
-										<td th:text="${selectedCourse.courseCustom.departmentId}"></td>
+										<td th:text="${selectedCourse.courseCustom.deptName}"></td>
 										<td th:text="${selectedCourse.courseCustom.courseType}"></td>
 										<td style="color: red" th:text="${selectedCourse.score}"></td>
 									</tr>

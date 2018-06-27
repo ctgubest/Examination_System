@@ -5,35 +5,38 @@ import com.ctgu.examination_system.entity.SelectedCourseCustom;
 import java.util.List;
 
 /**
- * Ñ¡¿Î±íservic²ã
+ * é€‰è¯¾è¡¨servicå±‚
  */
 public interface SelectedCourseService {
 
-    //¸ù¾İ¿Î³ÌID²éÑ¯¿Î³Ì
+    //æ ¹æ®è¯¾ç¨‹IDæŸ¥è¯¢è¯¾ç¨‹
     List<SelectedCourseCustom> findByCourseID(Integer id) throws Exception;
 
-    //¸ù¾İ¿Î³Ìid·ÖÒ³²éÑ¯¿Î³Ì
+    //æ ¹æ®è¯¾ç¨‹idåˆ†é¡µæŸ¥è¯¢è¯¾ç¨‹
     List<SelectedCourseCustom> findByCourseIDPaging(Integer page, Integer id) throws Exception;
 
-    //»ñÈ¡¸Ã¿Î³ÌÑ§ÉúÊı
+    //è·å–è¯¥è¯¾ç¨‹å­¦ç”Ÿæ•°
     Integer countByCourseID(Integer id) throws Exception;
 
-    //²éÑ¯Ö¸¶¨Ñ§Éú³É¼¨
+    //æŸ¥è¯¢æŒ‡å®šå­¦ç”Ÿæˆç»©
     SelectedCourseCustom findOne(SelectedCourseCustom selectedCourseCustom) throws Exception;
 
-    //´ò·Ö
+    //æ‰“åˆ†
     void updataOne(SelectedCourseCustom selectedCourseCustom) throws Exception;
 
-    //Ñ¡¿Î
+    //é€‰è¯¾
     void save(SelectedCourseCustom selectedCourseCustom) throws Exception;
 
-    //¸ù¾İÑ§Éúid²éÕÒÒÑÑ¡¿Î³Ì
+    //æ ¹æ®å­¦ç”ŸidæŸ¥æ‰¾å·²é€‰è¯¾ç¨‹
     List<SelectedCourseCustom> findSelectedCourseByStudentID(String StudentId) throws Exception;
 
-    //¸ù¾İÑ§Éúid²éÕÒÒÑĞŞ¿Î³Ì
+    //æ ¹æ®å­¦ç”ŸidæŸ¥æ‰¾å·²ä¿®è¯¾ç¨‹
     List<SelectedCourseCustom> findOveredCourseByStudentID(String StudentId) throws Exception;
 
-    //ÍË¿Î
+    //é€€è¯¾
     void remove(SelectedCourseCustom selectedCourseCustom) throws Exception;
+
+    //æ˜¯å¦å·²ç»ä¿®å®ŒæŸä¸ªè¯¾
+    int isOvered(String userId, int courseId);
 
 }

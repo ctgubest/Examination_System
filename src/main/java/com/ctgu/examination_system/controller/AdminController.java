@@ -239,7 +239,7 @@ public class AdminController {
     }
     @RequestMapping(value = "/selectCourse",method = RequestMethod.POST)
     public String searchCourse(@RequestParam("coursename") String coursename,Model model) {
-        List<Course> list = courseService.searchCourse(coursename);
+        List<CourseCustom> list = courseService.searchCourse(coursename);
         model.addAttribute("courseList", list);
         return "admin/showCourse";
     }

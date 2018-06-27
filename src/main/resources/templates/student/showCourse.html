@@ -25,10 +25,10 @@
 				    <div class="panel-heading">
 						<div class="row">
 					    	<h1 class="col-md-5">课程列表</h1>
-							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/student/selectCourse" th:action="@{/student/selectCourse}" id="form1" method="post">
+							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="/student/searchCourse" th:action="@{/student/searchCourse}" id="form1" method="post">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="请输入课程名" name="courseName">
-									<span class="input-group-addon btn" th:onclick="'javascript:selectCourse()'" id="sub">搜索</span>
+									<span class="input-group-addon btn" th:onclick="'javascript:searchCourse()'" id="sub">搜索</span>
 								</div>
 							</form>
 
@@ -101,11 +101,26 @@
             }
         }
 
-        function selectCourse(){
+        function searchCourse(){
         	$("#form1").submit();
         }
         function stuSelectedCourse(courseId){
-        	window.location.href="/student/stuSelectedCourse?courseId="+courseId;
+            $.ajax({
+                type: "GET",
+                data: {"courseId":courseId},
+                url: "/student/stuSelectedCourse",
+                success: function(data){
+                    if(data){
+                        alert("选课成功！");
+                        window.location.href="/student/selectedCourse";
+
+                    }else {
+                        alert("选课失败，你已经选了这们课，无法重复选！");
+                        window.location.reload();
+                    }
+                }
+            });
+
         }
 	</script>
 </html>

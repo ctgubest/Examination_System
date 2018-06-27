@@ -21,7 +21,7 @@ public interface CourseService {
 
 	boolean addCourse(Course course);
 
-	List<Course> searchCourse(String coursename);
+	List<CourseCustom> searchCourse(String coursename);
 
     Integer getLargestCourId();
 

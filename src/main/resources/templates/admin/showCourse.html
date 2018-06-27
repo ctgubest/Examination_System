@@ -46,7 +46,7 @@
 									<th>周数</th>
 									<th>上课时间</th>
 									<th>学分</th>
-									<th>院系编号</th>
+									<th>院系</th>
 									<th>课程类型</th>
 									<th>操作</th>
 					            </tr>
@@ -60,7 +60,7 @@
 									<td th:text="${course.courseWeek}">18</td>
 									<td th:text="${course.courseTime}">周一</td>
 									<td th:text="${course.credit}">3</td>
-									<td th:text="${course.departmentId}">101</td>
+									<td th:text="${course.deptName}">计算机学院</td>
 									<td th:text="${course.courseType}">必修课</td>
 									<td>
 										<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:enterEditCourse('+${course.id}+')'">修改</button>

@@ -34,18 +34,7 @@ public class CourseServiceImpl implements CourseService {
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         List<Course> list=courseMapper.findByPaging(pagingVO);
-        List<CourseCustom> result = new ArrayList<>();
-        if (list != null || list.size() > 0){
-            for (Course course : list){
-                CourseCustom cc = new CourseCustom();
-                BeanUtils.copyProperties(course, cc);
-                DepartmentExample  example = new DepartmentExample();
-                DepartmentExample.Criteria criteria = example.createCriteria();
-                criteria.andDepartmentIdEqualTo(course.getDepartmentId());
-                cc.setDeptName(departmentMapper.selectByExample(example).get(0).getDepartmentName());
-                result.add(cc);
-            }
-        }
+        List<CourseCustom> result = getCurseCustom(list);
         return result;
 	}
 
@@ -89,12 +78,13 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<Course> searchCourse(String coursename) {
+	public List<CourseCustom> searchCourse(String coursename) {
 		CourseExample courseExample=new CourseExample();
 		Criteria criteria=courseExample.createCriteria();
 		criteria.andCourseNameLike("%"+coursename+"%");
 		List<Course> list = courseMapper.selectByExample(courseExample);
-		return list;
+		List<CourseCustom> result = getCurseCustom(list);
+		return result;
 	}
 
     @Override
@@ -127,6 +117,22 @@ public class CourseServiceImpl implements CourseService {
             result.add(courseCustom);
         }
         System.out.println(result.get(0).getCourseName());
+        return result;
+    }
+
+    private List<CourseCustom> getCurseCustom(List<Course> list){
+        List<CourseCustom> result = new ArrayList<>();
+        if (list != null || list.size() > 0){
+            for (Course course : list){
+                CourseCustom cc = new CourseCustom();
+                BeanUtils.copyProperties(course, cc);
+                DepartmentExample example = new DepartmentExample();
+                DepartmentExample.Criteria criteria = example.createCriteria();
+                criteria.andDepartmentIdEqualTo(course.getDepartmentId());
+                cc.setDeptName(departmentMapper.selectByExample(example).get(0).getDepartmentName());
+                result.add(cc);
+            }
+        }
         return result;
     }
 

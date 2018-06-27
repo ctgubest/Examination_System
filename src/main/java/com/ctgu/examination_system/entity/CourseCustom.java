@@ -1,11 +1,11 @@
 package com.ctgu.examination_system.entity;
 
 /**
- * CourseÀ©Õ¹Àà    ¿Î³Ì
+ * Courseæ‰©å±•ç±»    è¯¾ç¨‹
  */
 public class CourseCustom extends Course {
 
-    //ËùÊôÔºÏµÃû
+    //æ‰€å±é™¢ç³»å
     private String deptName;
 
     public String getDeptName() {

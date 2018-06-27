@@ -39,7 +39,7 @@
 									<th>周数</th>
 									<th>上课时间</th>
 									<th>学分</th>
-									<th>院系编号</th>
+									<th>院系</th>
 									<th>课程类型</th>
 									<th>操作</th>
 					            </tr>
@@ -91,7 +91,21 @@
             $("#form1").submit();
         });
         function outCourse(courseId){
-        	window.location.href="/student/outCourse?courseId="+courseId;
+            $.ajax({
+                type: "GET",
+                data: {"courseId":courseId},
+                url: "/student/isOvered",
+                success: function(data){
+                    if(data){
+                        alert("该课你已修完，无法退课！");
+                        window.location.reload();
+                    }else {
+                        alert("退课成功");
+                        window.location.href="/student/outCourse?courseId="+courseId;
+                    }
+                }
+            });
+
         }
 	</script>
 </html>

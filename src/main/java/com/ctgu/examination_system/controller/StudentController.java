@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -58,7 +56,8 @@ public class StudentController {
 
     // 选课操作
     @RequestMapping(value = "/stuSelectedCourse")
-    public String stuSelectedCourse(@RequestParam("courseId") int courseId, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public int stuSelectedCourse(@RequestParam("courseId") int courseId, HttpServletRequest request) throws Exception {
         User user = (User) request.getSession().getAttribute("user");
         SelectedCourseCustom selectedCourseCustom = new SelectedCourseCustom();
         selectedCourseCustom.setCourseId(courseId);
@@ -68,10 +67,10 @@ public class StudentController {
 
         if (s == null) {    //若为空，则表示可以选课
             selectedCourseService.save(selectedCourseCustom);
-            return "redirect:/student/selectedCourse";
+            return 1;
         } else {        //不为空，则表示已选了该课
-            System.err.println("you have already selected this course");
-            return "redirect:/failedPage";
+            logger.info("这门课你已经选了");
+            return 0;
         }
     }
 
@@ -124,6 +123,22 @@ public class StudentController {
         model.addAttribute("selectedCourseList", list);
 
         return "student/overCourse";
+    }
+
+    //是否已经修完某个课程
+    @GetMapping("/isOvered")
+    @ResponseBody
+    public int isOvered(@RequestParam("courseId") int courseId, HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        return selectedCourseService.isOvered(user.getUserid(),courseId);
+    }
+
+    //搜索课程
+    @PostMapping("/searchCourse")
+    public String searchCourse(@RequestParam("courseName") String courseName,Integer page,Model model){
+        List<CourseCustom> courseList = courseService.searchCourse(courseName);
+        model.addAttribute("courseList", courseList);
+        return "student/showCourse";
     }
 
     //修改密码

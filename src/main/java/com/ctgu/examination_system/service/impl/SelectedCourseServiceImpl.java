@@ -178,6 +178,23 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
         selectedcourseMapper.deleteByExample(example);
     }
 
+    @Override
+    public int isOvered(String userId, int courseId) {
+        SelectedcourseExample example = new SelectedcourseExample();
+        SelectedcourseExample.Criteria criteria = example.createCriteria();
+        criteria.andCourseIdEqualTo(courseId);
+        criteria.andStudentIdEqualTo(userId);
+        criteria.andScoreIsNotNull();
+        List<Selectedcourse> selectedcourseList = selectedcourseMapper.selectByExample(example);
+        logger.info("取出来的size为{}",selectedcourseList.size());
+        //取不出来则说明成绩没出，表示没修完
+        if (selectedcourseList == null || selectedcourseList.size() == 0){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     //根据学生id查找学生
     private Student findStudentBtStuId(String studentId){
         StudentExample studentExample = new StudentExample();
