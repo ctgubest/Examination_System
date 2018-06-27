@@ -29,7 +29,7 @@
 
 						</div>
 				    </div>
-				    <table class="table table-bordered">
+				    <table class="table table-bordered" id="tab">
 					        <thead>
 					            <tr>
 									<th>课程号</th>
@@ -105,7 +105,59 @@
                     }
                 }
             });
+        }
+        window.onload = function change(){
+            var tab = document.getElementById("tab");
+            var rows = tab.rows;
 
+            for (var i = 1; i < rows.length; i++) {
+                var t = document.getElementById('tab').rows[i].cells[5].innerHTML;
+                var frist = t.slice(0,1);
+                var second = t.slice(1,2);
+                var weekday;
+                var classtime;
+                switch (frist){
+                    case '1':
+                        weekday = "星期一";
+                        break;
+                    case '2':
+                        weekday = "星期二";
+                        break;
+                    case '3':
+                        weekday = "星期三";
+                        break;
+                    case '4':
+                        weekday = "星期四";
+                        break;
+                    case '5':
+                        weekday = "星期五";
+                        break;
+                    case '6':
+                        weekday = "星期六";
+                        break;
+                    case '7':
+                        weekday = "星期七";
+                        break;
+                }
+                switch (second){
+                    case '1':
+                        classtime = "第一~二节课";
+                        break;
+                    case '2':
+                        classtime = "第三~四节课";
+                        break;
+                    case '3':
+                        classtime = "第五~六节课";
+                        break;
+                    case '4':
+                        classtime = "第七~八节课";
+                        break;
+                    case '5':
+                        classtime = "第九~十节课";
+                        break;
+                }
+                document.getElementById('tab').rows[i].cells[5].innerText = weekday + " " + classtime;
+            };
         }
 	</script>
 </html>
