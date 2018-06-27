@@ -1,5 +1,6 @@
 package com.ctgu.examination_system.controller;
 
+import com.ctgu.examination_system.entity.Course;
 import com.ctgu.examination_system.entity.CourseCustom;
 import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.SelectedCourseCustom;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,20 +74,20 @@ public class StudentController {
             return "redirect:/failedPage";
         }
     }
-/*
+
     // 退课操作
     @RequestMapping(value = "/outCourse")
-    public String outCourse(int id, HttpServletRequest request) throws Exception {
+    public String outCourse(@RequestParam("courseId") int courseId, HttpServletRequest request) throws Exception {
         User user = (User) request.getSession().getAttribute("user");
 
         SelectedCourseCustom selectedCourseCustom = new SelectedCourseCustom();
-        selectedCourseCustom.setCourseId(id);
+        selectedCourseCustom.setCourseId(courseId);
         selectedCourseCustom.setStudentId(user.getUserid());
 
         selectedCourseService.remove(selectedCourseCustom);
 
         return "redirect:/student/selectedCourse";
-    }*/
+    }
 
     // 已选课程
     @RequestMapping(value = "/selectedCourse")

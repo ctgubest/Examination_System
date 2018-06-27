@@ -15,11 +15,11 @@
 </head>
 <body>
 	<!-- 顶栏 -->
-	<div th:replace="student/menu::#menu"></div>
+	<div th:replace="student/top::#top"></div>
 	<!-- 中间主体 -->
 	<div class="container" id="content">
 		<div class="row">
-			<div th:replace="student/top::#top"></div>
+			<div th:replace="student/menu::#menu"></div>
 			<div class="col-md-10">
 				<div class="panel panel-default">
 				    <div class="panel-heading">
@@ -54,7 +54,8 @@
 									<td th:text="${selectedCourse.courseCustom.courseTime}"></td>
 									<td th:text="${selectedCourse.courseCustom.credit}"></td>
 									<td th:text="${selectedCourse.courseCustom.deptName}"></td>
-									<td th:text="${selectedCourse.courseCustom.courseType}">
+									<td th:text="${selectedCourse.courseCustom.courseType}"></td>
+									<td>
 											<button class="btn btn-default btn-xs btn-info" th:onClick="'javascript:outCourse('+${selectedCourse.courseId}+')'">退课</button>
 										</td>
 									</tr>
@@ -85,14 +86,6 @@
 </body>
 	<script type="text/javascript">
 		$("#2").addClass("active")
-        function confirmd() {
-            var msg = "您真的确定要删除吗？！";
-            if (confirm(msg)==true){
-                return true;
-            }else{
-                return false;
-            }
-        }
 
         $("#sub").click(function () {
             $("#form1").submit();
