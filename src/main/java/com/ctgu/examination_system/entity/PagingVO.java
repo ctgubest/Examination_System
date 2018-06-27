@@ -18,6 +18,12 @@ public class PagingVO {
     //要前往的页码,默认0
     private int toPageNo = 0;
 
+    //模糊查询的关键字
+    private String keyWord;
+
+    //教师id
+    private String teacherId;
+
     public void setToPageNo(Integer toPageNo) {
         //新一页
         this.toPageNo = (toPageNo-1) * pageSize ;
@@ -78,5 +84,21 @@ public class PagingVO {
 
     public void setNextPageNo(int nextPageNo) {
         this.nextPageNo = nextPageNo;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
     }
 }
