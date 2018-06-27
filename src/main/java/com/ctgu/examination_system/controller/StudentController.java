@@ -40,7 +40,7 @@ public class StudentController {
         //页码对象
         PagingVO pagingVO = new PagingVO();
         //设置总页数
-        pagingVO.setTotalCount(courseService.getCountCourse());
+        pagingVO.setTotalCount(courseService.getCountCourse(""));
         if (page == null || page == 0) {
             pagingVO.setToPageNo(1);
             list = courseService.findByPaging(1);
@@ -136,8 +136,21 @@ public class StudentController {
     //搜索课程
     @PostMapping("/searchCourse")
     public String searchCourse(@RequestParam("courseName") String courseName,Integer page,Model model){
-        List<CourseCustom> courseList = courseService.searchCourse(courseName);
+
+        List<CourseCustom> courseList = null;
+        //页码对象
+        PagingVO pagingVO = new PagingVO();
+        //设置总页数
+        pagingVO.setTotalCount(courseService.getCountCourse(courseName));
+        if (page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            courseList = courseService.searchCourseByPage(courseName,1);
+        } else {
+            pagingVO.setToPageNo(page);
+            courseList = courseService.searchCourseByPage(courseName,page);
+        }
         model.addAttribute("courseList", courseList);
+        model.addAttribute("pagingVO", pagingVO);
         return "student/showCourse";
     }
 
