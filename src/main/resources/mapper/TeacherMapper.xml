@@ -278,6 +278,12 @@
         select
         <include refid="Base_Column_List"/>
         from teacher
+        <where>
+            <if test="keyWord!=null and keyWord!=''">
+                <!--查询关键词和百分号之间必须空格，否则会出错-->
+                AND username like '%' #{keyWord} '%'
+            </if>
+        </where>
         limit #{toPageNo}, #{pageSize}
     </select>
 

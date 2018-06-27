@@ -293,6 +293,15 @@
         select 
 		<include refid="Base_Column_List"/>
         from course
+        <where>
+            <if test="teacherId!=null and teacherId!=''">
+                AND teacher_id = #{teacherId}
+            </if>
+            <if test="keyWord!=null and keyWord!=''">
+                <!--查询关键词和百分号之间必须空格，否则会出错-->
+                AND course_name like '%' #{keyWord} '%'
+            </if>
+        </where>
         limit #{toPageNo}, #{pageSize}
     </select>
     <select id="getLargestCourId" resultType="java.lang.Integer">
