@@ -23,8 +23,10 @@ public class StudentServiceImpl implements StudentService{
 	@Autowired
 	private DepartmentMapper departmentMapper;
 	@Override
-	public Integer getCountStudent() {
+	public Integer getCountStudent(String username) {
         StudentExample studentExample=new StudentExample();
+        Criteria criteria = studentExample.createCriteria();
+        criteria.andUsernameLike("%"+username+"%");
         Integer studentCount=studentMapper.countByExample(studentExample);
 		return studentCount;
 	}
@@ -64,15 +66,16 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public List<Student> searchStudent(String username) {
-	    StudentExample example = new StudentExample();
-        StudentExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameLike("%"+username+"%");
-        List<Student> list = studentMapper.selectByExample(example);
+    public List<Student> searchStudentByPage(String username, int i) {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(i);
+        pagingVO.setKeyWord(username);
+        List<Student> list = studentMapper.findByPaging(pagingVO);
         list = setDept(list);
         return list;
     }
-	@Override
+
+    @Override
 	public boolean findStudentByStudentId(String studentId) {
 		StudentExample studentExample=new StudentExample();
 		Criteria criteria=studentExample.createCriteria();

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by 汪俊 on 2018/6/4.
  */
 public interface TeacherService {
-    Integer getCountTeacher();
+    Integer getCountTeacher(String username);
 
     List<Teacher> findAll();
 
@@ -26,7 +26,7 @@ public interface TeacherService {
 
     boolean addTeacher(Teacher teacher);
 
-    List<Teacher> searchTeacher(String username);
+    List<Teacher> searchTeacherByPage(String username, int i);
 
     Integer getLargestTeaId();
 

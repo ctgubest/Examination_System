@@ -6,7 +6,7 @@ import com.ctgu.examination_system.entity.Student;
 
 public interface StudentService {
 	
-	Integer getCountStudent();
+	Integer getCountStudent(String username);
 
 
 	List<Student> findByPaging(int i);
@@ -22,7 +22,7 @@ public interface StudentService {
 
 	boolean addStudent(Student student);
 
-	List<Student> searchStudent(String username);
+    List<Student> searchStudentByPage(String username, int i);
 
 	boolean findStudentByStudentId(String studentId);
 

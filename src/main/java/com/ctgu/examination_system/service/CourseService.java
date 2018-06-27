@@ -7,7 +7,9 @@ import com.ctgu.examination_system.entity.CourseCustom;
 
 public interface CourseService {
 
-	int getCountCourse();
+	int getCountCourse(String coursename);
+
+    int getMyCountCourse(String teacherId, String coursename);
 
 	List<CourseCustom> findByPaging(int i);
 
@@ -21,7 +23,9 @@ public interface CourseService {
 
 	boolean addCourse(Course course);
 
-	List<CourseCustom> searchCourse(String coursename);
+    List<CourseCustom> searchCourseByPage(String coursename, int i);
+
+    List<CourseCustom> searchMyCourseByPage(String teacherId, String coursename, int i);
 
     Integer getLargestCourId();
 

@@ -22,8 +22,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private TeacherMapper teacherMapper;
     @Override
-    public Integer getCountTeacher() {
+    public Integer getCountTeacher(String username) {
         TeacherExample example=new TeacherExample();
+        TeacherExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameLike("%" + username + "%");
         Integer teacherCount=teacherMapper.countByExample(example);
         return teacherCount;
     }
@@ -67,11 +69,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> searchTeacher(String username) {
-        TeacherExample example = new TeacherExample();
-        TeacherExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameLike("%"+username+"%");
-        List<Teacher> list = teacherMapper.selectByExample(example);
+    public List<Teacher> searchTeacherByPage(String username, int i) {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(i);
+        pagingVO.setKeyWord(username);
+        List<Teacher> list = teacherMapper.findByPaging(pagingVO);
         list = setDept(list);
         return list;
     }

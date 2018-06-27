@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.ctgu.examination_system.entity.*;
 import com.ctgu.examination_system.mapper.DepartmentMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import com.ctgu.examination_system.service.CourseService;
 @Service
 public class CourseServiceImpl implements CourseService {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private CourseMapper courseMapper;
 
@@ -23,13 +27,25 @@ public class CourseServiceImpl implements CourseService {
 	private DepartmentMapper departmentMapper;
 
 	@Override
-	public int getCountCourse() {
+	public int getCountCourse(String coursename) {
 		CourseExample courseExample=new CourseExample();
+		Criteria criteria = courseExample.createCriteria();
+        criteria.andCourseNameLike("%"+coursename+"%");
 		Integer courseCount=courseMapper.countByExample(courseExample);
 	    return courseCount;
 	}
 
-	@Override
+    @Override
+    public int getMyCountCourse(String teacherId, String coursename) {
+        CourseExample courseExample=new CourseExample();
+        Criteria criteria = courseExample.createCriteria();
+        criteria.andCourseNameLike("%"+coursename+"%");
+        criteria.andTeacherIdEqualTo(teacherId);
+        Integer courseCount=courseMapper.countByExample(courseExample);
+        return courseCount;
+    }
+
+    @Override
 	public List<CourseCustom> findByPaging(int i) {
 		PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
@@ -77,15 +93,29 @@ public class CourseServiceImpl implements CourseService {
 		return courseMapper.insert(course)==1;
 	}
 
-	@Override
-	public List<CourseCustom> searchCourse(String coursename) {
-		CourseExample courseExample=new CourseExample();
-		Criteria criteria=courseExample.createCriteria();
-		criteria.andCourseNameLike("%"+coursename+"%");
-		List<Course> list = courseMapper.selectByExample(courseExample);
-		List<CourseCustom> result = getCurseCustom(list);
-		return result;
-	}
+    @Override
+    public List<CourseCustom> searchCourseByPage(String coursename, int i) {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(i);
+        pagingVO.setKeyWord(coursename);
+        List<Course> list = courseMapper.findByPaging(pagingVO);
+        List<CourseCustom> result = getCurseCustom(list);
+        logger.info("页码：{}",pagingVO.getTopageNo());
+        logger.info("课程名：{}",pagingVO.getKeyWord());
+        logger.info("页数：{}",result.size());
+        return result;
+    }
+
+    @Override
+    public List<CourseCustom> searchMyCourseByPage(String teacherId, String coursename, int i) {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(i);
+        pagingVO.setKeyWord(coursename);
+        pagingVO.setTeacherId(teacherId);
+        List<Course> list = courseMapper.findByPaging(pagingVO);
+        List<CourseCustom> result = getCurseCustom(list);
+        return result;
+    }
 
     @Override
     public Integer getLargestCourId() {
@@ -111,7 +141,6 @@ public class CourseServiceImpl implements CourseService {
             criteria1.andDepartmentIdEqualTo(course.getDepartmentId());
             List<Department> departmentList = departmentMapper.selectByExample(deptExample);
             if (departmentList != null && departmentList.size() > 0) {
-                System.out.println("ggggg");
                 courseCustom.setDeptName(departmentList.get(0).getDepartmentName());
             }
             result.add(courseCustom);
