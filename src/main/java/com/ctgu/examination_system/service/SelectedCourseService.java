@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface SelectedCourseService {
 
+    int getCountSelectedCourse(String studentId, boolean isOvered);
+
     //根据课程ID查询课程
     List<SelectedCourseCustom> findByCourseID(Integer id) throws Exception;
 
@@ -28,10 +30,10 @@ public interface SelectedCourseService {
     void save(SelectedCourseCustom selectedCourseCustom) throws Exception;
 
     //根据学生id查找已选课程
-    List<SelectedCourseCustom> findSelectedCourseByStudentID(String StudentId) throws Exception;
+    List<SelectedCourseCustom> findSelectedCourseByPage(String StudentId, int i) throws Exception;
 
     //根据学生id查找已修课程
-    List<SelectedCourseCustom> findOveredCourseByStudentID(String StudentId) throws Exception;
+    List<SelectedCourseCustom> findOveredCourseByPage(String StudentId, int i) throws Exception;
 
     //退课
     void remove(SelectedCourseCustom selectedCourseCustom) throws Exception;

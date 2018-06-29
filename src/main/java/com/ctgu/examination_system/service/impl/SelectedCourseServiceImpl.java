@@ -5,7 +5,6 @@ import com.ctgu.examination_system.mapper.CourseMapper;
 import com.ctgu.examination_system.mapper.DepartmentMapper;
 import com.ctgu.examination_system.mapper.SelectedcourseMapper;
 import com.ctgu.examination_system.mapper.StudentMapper;
-import com.ctgu.examination_system.service.DepartmentService;
 import com.ctgu.examination_system.service.SelectedCourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +34,18 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
 
     @Autowired
     private DepartmentMapper departmentMapper;
+
+    @Override
+    public int getCountSelectedCourse(String studentId, boolean isOvered) {
+        SelectedcourseExample example = new SelectedcourseExample();
+        SelectedcourseExample.Criteria criteria = example.createCriteria();
+        criteria.andStudentIdEqualTo(studentId);
+        if (isOvered == true){
+            criteria.andScoreIsNotNull();
+        }
+        Integer count = selectedcourseMapper.countByExample(example);
+        return count;
+    }
 
     @Override
     public List<SelectedCourseCustom> findByCourseID(Integer id) throws Exception {
@@ -106,11 +117,11 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
 
     //已选课程
     @Override
-    public List<SelectedCourseCustom> findSelectedCourseByStudentID(String StudentId) throws Exception {
-        SelectedcourseExample example = new SelectedcourseExample();
-        SelectedcourseExample.Criteria criteria = example.createCriteria();
-        criteria.andStudentIdEqualTo(StudentId);
-        List<Selectedcourse> list = selectedcourseMapper.selectByExample(example);
+    public List<SelectedCourseCustom> findSelectedCourseByPage(String StudentId, int page) throws Exception {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(page);
+        pagingVO.setUserId(StudentId);
+        List<Selectedcourse> list = selectedcourseMapper.findByPaging(pagingVO);
         List<SelectedCourseCustom> result = new ArrayList<>();
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -136,12 +147,12 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
 
     //已修课程
     @Override
-    public List<SelectedCourseCustom> findOveredCourseByStudentID(String StudentId) throws Exception {
-        SelectedcourseExample example = new SelectedcourseExample();
-        SelectedcourseExample.Criteria criteria = example.createCriteria();
-        criteria.andStudentIdEqualTo(StudentId);
-        criteria.andScoreIsNotNull();
-        List<Selectedcourse> list = selectedcourseMapper.selectByExample(example);
+    public List<SelectedCourseCustom> findOveredCourseByPage(String StudentId, int page) throws Exception {
+        PagingVO pagingVO = new PagingVO();
+        pagingVO.setToPageNo(page);
+        pagingVO.setUserId(StudentId);
+        pagingVO.setOvered(true);
+        List<Selectedcourse> list = selectedcourseMapper.findByPaging(pagingVO);
         List<SelectedCourseCustom> result = new ArrayList<>();
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {

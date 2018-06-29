@@ -21,8 +21,10 @@ public class PagingVO {
     //模糊查询的关键字
     private String keyWord;
 
-    //教师id
-    private String teacherId;
+    //用户id
+    private String userId;
+
+    private boolean Overed;
 
     public void setToPageNo(Integer toPageNo) {
         //新一页
@@ -94,11 +96,19 @@ public class PagingVO {
         this.keyWord = keyWord;
     }
 
-    public String getTeacherId() {
-        return teacherId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public boolean isOvered() {
+        return Overed;
+    }
+
+    public void setOvered(boolean overed) {
+        Overed = overed;
     }
 }

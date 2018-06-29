@@ -1,5 +1,6 @@
 package com.ctgu.examination_system.mapper;
 
+import com.ctgu.examination_system.entity.PagingVO;
 import com.ctgu.examination_system.entity.Selectedcourse;
 import com.ctgu.examination_system.entity.SelectedcourseExample;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface SelectedcourseMapper {
     int updateByPrimaryKeySelective(Selectedcourse record);
 
     int updateByPrimaryKey(Selectedcourse record);
+
+    List<Selectedcourse> findByPaging(PagingVO pagingVO);
 }

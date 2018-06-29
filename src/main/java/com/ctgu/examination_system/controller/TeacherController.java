@@ -52,9 +52,6 @@ public class TeacherController {
         }
         model.addAttribute("courseList", courseList);
         model.addAttribute("pagingVO", pagingVO);
-
-        logger.info(courseList.get(0).getClassroom());
-        logger.info(courseList.get(0).toString());
         model.addAttribute("courseList", courseList);
         return "teacher/showCourse";
     }

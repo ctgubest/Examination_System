@@ -208,4 +208,24 @@
       score = #{score,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <!-- 自定义分页查询 -->
+    <select id="findByPaging" parameterType="com.ctgu.examination_system.entity.PagingVO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from selectedcourse
+        <where>
+            <if test="userId!=null and userId!=''">
+                AND student_id = #{userId}
+            </if>
+            <if test="keyWord!=null and keyWord!=''">
+                <!--查询关键词和百分号之间必须空格，否则会出错-->
+                AND course_name like '%' #{keyWord} '%'
+            </if>
+            <if test="Overed==true">
+                AND score is not NULL
+            </if>
+        </where>
+        limit #{toPageNo}, #{pageSize}
+    </select>
 </mapper>

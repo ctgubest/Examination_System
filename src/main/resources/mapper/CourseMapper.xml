@@ -294,8 +294,8 @@
 		<include refid="Base_Column_List"/>
         from course
         <where>
-            <if test="teacherId!=null and teacherId!=''">
-                AND teacher_id = #{teacherId}
+            <if test="userId!=null and userId!=''">
+                AND teacher_id = #{userId}
             </if>
             <if test="keyWord!=null and keyWord!=''">
                 <!--查询关键词和百分号之间必须空格，否则会出错-->

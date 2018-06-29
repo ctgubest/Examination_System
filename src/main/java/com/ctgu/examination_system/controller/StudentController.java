@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -90,28 +89,56 @@ public class StudentController {
 
     // 已选课程
     @RequestMapping(value = "/selectedCourse")
-    public String selectedCourse(Model model, HttpServletRequest request) throws Exception {
+    public String selectedCourse(Model model, HttpServletRequest request, Integer page) throws Exception {
         //获取当前用户名
         User user = (User) request.getSession().getAttribute("user");
 
-        List<SelectedCourseCustom> list = selectedCourseService.findSelectedCourseByStudentID(user.getUserid());
-
-        for (SelectedCourseCustom sc : list){
-            System.out.println(sc.getCourseCustom().getCourseName());
+        List<SelectedCourseCustom> selectedCourseCustomList = null;
+        //页码对象
+        PagingVO pagingVO = new PagingVO();
+        //设置总页数
+        pagingVO.setTotalCount(selectedCourseService.getCountSelectedCourse(user.getUserid(),false));
+        if (page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            selectedCourseCustomList = selectedCourseService.findSelectedCourseByPage(user.getUserid(), 1);
+        } else {
+            pagingVO.setToPageNo(page);
+            selectedCourseCustomList = selectedCourseService.findSelectedCourseByPage(user.getUserid(), page);
+        }
+        logger.info("已选课程：");
+        for (SelectedCourseCustom sc : selectedCourseCustomList){
+            logger.info("课程名称={}",sc.getCourseCustom().getCourseName());
+            logger.info("学分={}",sc.getCourseCustom().getCredit());
+            logger.info("上课时间={}",sc.getCourseCustom().getCourseTime());
+            logger.info("成绩={}",sc.getScore());
         }
 
-        model.addAttribute("selectedCourseList", list);
-
+        model.addAttribute("selectedCourseList", selectedCourseCustomList);
+        model.addAttribute("pagingVO", pagingVO);
         return "student/selectedCourse";
     }
 
     // 已修课程
     @RequestMapping(value = "/overCourse")
-    public String overCourse(Model model,HttpServletRequest request) throws Exception {
+    public String overCourse(Model model,HttpServletRequest request, Integer page) throws Exception {
 
         User user = (User)request.getSession().getAttribute("user");
 
-        List<SelectedCourseCustom> list = selectedCourseService.findOveredCourseByStudentID(user.getUserid());
+        List<SelectedCourseCustom> list = null;
+
+        //页码对象
+        PagingVO pagingVO = new PagingVO();
+        //设置总页数
+        pagingVO.setTotalCount(selectedCourseService.getCountSelectedCourse(user.getUserid(),true));
+        logger.info("总页数：{}",pagingVO.getTotalCount());
+        if (page == null || page == 0) {
+            pagingVO.setToPageNo(1);
+            list = selectedCourseService.findOveredCourseByPage(user.getUserid(), 1);
+        } else {
+            pagingVO.setToPageNo(page);
+            list = selectedCourseService.findOveredCourseByPage(user.getUserid(), page);
+        }
+
 
         for (SelectedCourseCustom sc : list){
             logger.info("课程名称={}",sc.getCourseCustom().getCourseName());
@@ -121,7 +148,7 @@ public class StudentController {
         }
 
         model.addAttribute("selectedCourseList", list);
-
+        model.addAttribute("pagingVO", pagingVO);
         return "student/overCourse";
     }
 

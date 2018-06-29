@@ -113,7 +113,7 @@ public class CourseServiceImpl implements CourseService {
         PagingVO pagingVO = new PagingVO();
         pagingVO.setToPageNo(i);
         pagingVO.setKeyWord(coursename);
-        pagingVO.setTeacherId(teacherId);
+        pagingVO.setUserId(teacherId);
         List<Course> list = courseMapper.findByPaging(pagingVO);
         List<CourseCustom> result = getCurseCustom(list);
         return result;
