@@ -47,12 +47,31 @@
 									  </select>
 								  </div>
 							  </div>
-							<div class="form-group">
-								<label for="inputPassword3" class="col-sm-2 control-label">上课时间</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="courseTime" th:value="${course.courseTime}" placeholder="请输入上课时间">
-								</div>
-							</div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">上课时间</label>
+                                <div class="col-sm-10">
+                                    <div class="form-inline">
+                                        <select class="form-control" name="courseTime1">
+                                            <option value="星期" selected="selected">星期</option>
+                                            <option value="1">星期一</option>
+                                            <option value="2">星期二</option>
+                                            <option value="3">星期三</option>
+                                            <option value="4">星期四</option>
+                                            <option value="5">星期五</option>
+                                            <option value="6">星期六</option>
+                                            <option value="7">星期日</option>
+                                        </select>
+                                        <select class="form-control" name="courseTime2">
+                                            <option value="第几节课" selected="selected">第几节课</option>
+                                            <option value="1">第一~二节课</option>
+                                            <option value="2">第三~四节课</option>
+                                            <option value="3">第五~六节课</option>
+                                            <option value="4">第七~八节课</option>
+                                            <option value="5">第九~十节课</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 							<div class="form-group">
 								<label for="inputPassword3" class="col-sm-2 control-label">上课地点</label>
 								<div class="col-sm-10">

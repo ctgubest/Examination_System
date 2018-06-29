@@ -70,9 +70,11 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public boolean editCourse(Course course) {
-		if(course!=null) {
+		if(course != null) {
 			CourseExample courseExample=new CourseExample();
-			return courseMapper.updateByExampleSelective(course, courseExample)==1;
+			Criteria criteria = courseExample.createCriteria();
+			criteria.andCourseIdEqualTo(course.getCourseId());
+			return courseMapper.updateByExampleSelective(course, courseExample) == 1;
 		}
 		return false;
 	}

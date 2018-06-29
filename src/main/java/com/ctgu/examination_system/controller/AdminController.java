@@ -236,7 +236,9 @@ public class AdminController {
     	return "admin/editCourse";
     }
     @RequestMapping(value="editCourse",method=RequestMethod.POST)
-    public String editCourse(Course course) {
+    public String editCourse(Course course,@RequestParam("courseTime1")String courseTime1,@RequestParam("courseTime2")String courseTime2) {
+        String couseTime = courseTime1+courseTime2;
+        course.setCourseTime(Short.valueOf(couseTime));
     	courseService.editCourse(course);
     	return "redirect:/admin/showCourse";
     }
